@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import { Route, Link } from 'react-router-dom';
-import './App.css';
 import * as firebase from 'firebase';
+import './App.css';
 import Landing from './components/Landing';
 import RoomList from './components/RoomList';
 
-
-// Initialize Firebase
 var config = {
   apiKey: "AIzaSyApIlz4UZgNlb9YpxbB9-_3VdcFzMimGdc",
   authDomain: "chat-app-react-d502e.firebaseapp.com",
@@ -25,14 +22,16 @@ class App extends Component {
         <header>
           <div className="siteMenu">
             <nav>
-              <Link to='/'><div className="menuOption">Home</div></Link>
-              <Link to='/RoomList'><div className="menuOption">Chat Rooms</div></Link>
+              <div className="menuOption">Home</div>
+              <div className="menuOption">Chat Rooms</div>
             </nav>
           </div>
         </header>
         <main>
-          <Route exact path="/" component={Landing} />
-          <Route path="/RoomList" component={RoomList} />
+
+          <Landing/>
+          <RoomList firebase={firebase}/>
+
         </main>
       </div>
     );
