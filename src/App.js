@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
 import * as firebase from 'firebase';
 import './App.css';
 import Landing from './components/Landing';
 import RoomList from './components/RoomList';
 
 var config = {
-  apiKey: "AIzaSyApIlz4UZgNlb9YpxbB9-_3VdcFzMimGdc",
-  authDomain: "chat-app-react-d502e.firebaseapp.com",
-  databaseURL: "https://chat-app-react-d502e.firebaseio.com",
-  projectId: "chat-app-react-d502e",
-  storageBucket: "chat-app-react-d502e.appspot.com",
-  messagingSenderId: "415156342229"
+  apiKey: "AIzaSyDu2J3W06iZPskgdnT1_25vqRZbRd8IUrs",
+  authDomain: "chat-app-react-2.firebaseapp.com",
+  databaseURL: "https://chat-app-react-2.firebaseio.com",
+  projectId: "chat-app-react-2",
+  storageBucket: "chat-app-react-2.appspot.com",
+  messagingSenderId: "727916702140"
 };
 firebase.initializeApp(config);
 
@@ -22,16 +21,14 @@ class App extends Component {
         <header>
           <div className="siteMenu">
             <nav>
-              <div className="menuOption">Home</div>
-              <div className="menuOption">Chat Rooms</div>
+              <span className="menuOption">Home</span>
+              <span className="menuOption">Chat Rooms</span>
             </nav>
           </div>
         </header>
         <main>
-
           <Landing/>
           <RoomList firebase={firebase}/>
-
         </main>
       </div>
     );
