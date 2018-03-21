@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import { Route, Link } from 'react-router-dom';
 import './App.css';
 import * as firebase from 'firebase';
 // Initialize Firebase
@@ -17,13 +18,18 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+        <header>
+          <div className="siteMenu">
+            <nav>
+              <Link to='/'><div className="menuOption">Home</div></Link>
+              <Link to='/RoomList'><div className="menuOption">Chat Rooms</div></Link>
+            </nav>
+          </div>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <main>
+          <Route exact path="/" component={Landing} />
+          <Route path="/RoomList" component={RoomList} />
+        </main>
       </div>
     );
   }
