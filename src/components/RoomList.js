@@ -3,11 +3,10 @@ import React, { Component } from 'react';
 class RoomList extends Component {
   constructor(props) {
     super(props);
-        };
-        this.roomsRef = this.props.firebase.database().ref('rooms');
         this.state = {
           rooms:[]
         };
+        this.roomsRef = this.props.firebase.database().ref('rooms');
   }
 
   render() {

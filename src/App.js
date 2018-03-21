@@ -3,6 +3,10 @@ import logo from './logo.svg';
 import { Route, Link } from 'react-router-dom';
 import './App.css';
 import * as firebase from 'firebase';
+import Landing from './components/Landing';
+import RoomList from './components/RoomList';
+
+
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyApIlz4UZgNlb9YpxbB9-_3VdcFzMimGdc",
