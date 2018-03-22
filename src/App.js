@@ -3,6 +3,7 @@ import * as firebase from 'firebase';
 import './App.css';
 import Landing from './components/Landing';
 import RoomList from './components/RoomList';
+import MessageList from './components/MessageList';
 
 var config = {
   apiKey: "AIzaSyDu2J3W06iZPskgdnT1_25vqRZbRd8IUrs",
@@ -29,6 +30,7 @@ class App extends Component {
         <main>
           <Landing/>
           <RoomList firebase={firebase}/>
+          <MessageList firebase={firebase}/>
         </main>
       </div>
     );
