@@ -14,7 +14,6 @@ class MessageList extends Component {
       const message = snapshot.val();
       message.key = snapshot.key;
       this.setState({ messages: this.state.messages.concat( message ) });
-      console.log(message);
     });
   }
 
@@ -22,7 +21,7 @@ class MessageList extends Component {
     return (
       <section className="MessageList">
         <div align="center" className="messages">
-          <h2>Messages</h2>
+          <h2>Messages:</h2>
           {
           this.state.messages.map( (message, index) =>
             <div key={index} className="message">

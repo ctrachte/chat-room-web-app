@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import './App.css';
-import Landing from './components/Landing';
+import ActiveRoom from './components/ActiveRoom';
 import RoomList from './components/RoomList';
 import MessageList from './components/MessageList';
 
@@ -20,15 +20,11 @@ class App extends Component {
     return (
       <div className="App">
         <header>
-          <div className="siteMenu">
-            <nav>
-              <span className="menuOption">Home</span>
-              <span className="menuOption">Chat Rooms</span>
-            </nav>
-          </div>
         </header>
         <main>
-          <Landing/>
+          <ActiveRoom
+          firebase={firebase}
+          />
           <RoomList firebase={firebase}/>
           <MessageList firebase={firebase}/>
         </main>
