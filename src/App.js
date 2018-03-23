@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import './App.css';
-import ActiveRoom from './components/ActiveRoom';
+import AppHeader from './components/AppHeader';
 import RoomList from './components/RoomList';
 import MessageList from './components/MessageList';
 
@@ -36,16 +36,16 @@ class App extends Component {
         <header>
         </header>
         <main>
-          <ActiveRoom
+          <AppHeader
           firebase={firebase}
-          />
-          <RoomList
-            firebase={firebase}
-            changeRoom={this.changeRoom}
           />
           <MessageList
             activeRoom={this.state.activeRoom}
             firebase={firebase}
+          />
+          <RoomList
+            firebase={firebase}
+            changeRoom={this.changeRoom}
           />
         </main>
       </div>

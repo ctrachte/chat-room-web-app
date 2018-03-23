@@ -35,7 +35,7 @@ class RoomList extends Component {
   deleteRoom (event) {
     event.preventDefault();
     const roomToDelete = event.target.parentNode.firstChild.id;
-    console.log(this.roomsRef.child(roomToDelete));
+    this.roomsRef.child(roomToDelete).remove();
   }
 
   render() {

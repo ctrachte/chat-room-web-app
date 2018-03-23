@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class ActiveRoom extends Component  {
+class AppHeader extends Component  {
   constructor(props) {
     super(props);
         this.state = {
@@ -11,12 +11,12 @@ class ActiveRoom extends Component  {
 
   render() {
     return (
-      <section className="MessageList">
+      <section className="header">
         <div align="center" className="messages">
-          <h2>Active Room: {this.activeRoomId} </h2>
+          <h2>React Chat App</h2>
         </div>
       </section>
     );
   }
 }
-export default ActiveRoom;
+export default AppHeader;
