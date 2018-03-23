@@ -26,7 +26,7 @@ class App extends Component {
 
   changeRoom (event) {
     event.preventDefault();
-    this.setState({activeRoom: event.target.innerHTML});
+    this.setState({activeRoom: event.target.id});
   }
 
 

@@ -10,6 +10,7 @@ class RoomList extends Component {
         this.roomsRef = this.props.firebase.database().ref('rooms');
         this.handleNameChange = this.handleNameChange.bind(this);
         this.createRoom = this.createRoom.bind(this);
+        this.deleteRoom = this.deleteRoom.bind(this);
   }
 
   componentDidMount() {
@@ -31,6 +32,12 @@ class RoomList extends Component {
     this.roomsRef.push({name: newChatRoomName });
   }
 
+  deleteRoom (event) {
+    event.preventDefault();
+    const roomToDelete = event.target.parentNode.firstChild.id;
+    console.log(this.roomsRef.child(roomToDelete));
+  }
+
   render() {
     return (
       <section className="RoomList">
@@ -45,9 +52,9 @@ class RoomList extends Component {
           </form>
           {
           this.state.rooms.map( (room, index) =>
-            <div key={index} className="room" id={room.name} >
-              <h3 onClick={this.props.changeRoom}>{room.name}</h3>
-              <button>Delete</button>
+            <div key={index} className="roomContainer" onClick={this.props.changeRoom}>
+              <h3 id={room.name}>{room.name}</h3>
+              <button onClick={this.deleteRoom}>Delete</button>
             </div>
           )
           }
