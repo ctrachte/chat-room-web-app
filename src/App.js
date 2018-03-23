@@ -13,13 +13,15 @@ var config = {
   storageBucket: "chat-app-react-2.appspot.com",
   messagingSenderId: "727916702140"
 };
+
 firebase.initializeApp(config);
 
 class App extends Component {
   constructor(props) {
     super(props);
         this.state = {
-          activeRoom:"room1"
+          activeRoom:"room1",
+          currentUser: ""
         };
         this.changeRoom = this.changeRoom.bind(this);
   }
