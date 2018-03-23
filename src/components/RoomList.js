@@ -22,7 +22,7 @@ class RoomList extends Component {
 
   handleNameChange(event) {
     this.setState({newRoomName: event.target.value});
-    console.log(this.state.newRoomName);
+    console.log(event.target.value);
   }
 
   createRoom (event) {
@@ -45,8 +45,8 @@ class RoomList extends Component {
           </form>
           {
           this.state.rooms.map( (room, index) =>
-            <div key={index} className="room" id={room.name}>
-              <h3>{room.name}</h3>
+            <div key={index} className="room" id={room.name} >
+              <h3 onClick={this.props.changeRoom}>{room.name}</h3>
               <button>Delete</button>
             </div>
           )

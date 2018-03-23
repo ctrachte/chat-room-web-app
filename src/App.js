@@ -21,7 +21,15 @@ class App extends Component {
         this.state = {
           activeRoom:"room1"
         };
+        this.changeRoom = this.changeRoom.bind(this);
   }
+
+  changeRoom (event) {
+    event.preventDefault();
+    this.setState({activeRoom: event.target.innerHTML});
+  }
+
+
   render() {
     return (
       <div className="App">
@@ -31,7 +39,10 @@ class App extends Component {
           <ActiveRoom
           firebase={firebase}
           />
-          <RoomList firebase={firebase}/>
+          <RoomList
+            firebase={firebase}
+            changeRoom={this.changeRoom}
+          />
           <MessageList
             activeRoom={this.state.activeRoom}
             firebase={firebase}
