@@ -15,7 +15,7 @@ class MessageList extends Component {
       message.key = snapshot.key;
       this.setState({ messages: this.state.messages.concat( message ) });
     });
-  }
+    }
 
   render() {
     return (
@@ -23,14 +23,12 @@ class MessageList extends Component {
         <div align="center" className="messages">
           <h2>Messages:</h2>
           {
-          this.state.messages.map( (message, index) =>
-            <div key={index} className="message">
-
-              <h3>{message.username}: </h3>
-              <p>{message.content}</p>
-              <p>Sent: {message.sentAt}</p>
-
-            </div>
+          this.state.messages.filter(message => message.roomId===this.props.activeRoom).map( (message, index) =>
+              <div key={index} className="message">
+                <h3>{message.username}: </h3>
+                <p>{message.content}</p>
+                <p>Sent: {message.sentAt}</p>
+              </div>
           )
           }
         </div>
