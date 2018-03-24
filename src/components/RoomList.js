@@ -28,16 +28,19 @@ class RoomList extends Component {
 
   createRoom (event) {
     event.preventDefault();
-    const newChatRoomName = this.state.newRoomName;
-    this.roomsRef.push({name: newChatRoomName });
-    this.setState({newRoomName:""});
+    if (this.props.currentUser) {
+      const newChatRoomName = this.state.newRoomName;
+      this.roomsRef.push({name: newChatRoomName });
+      this.setState({newRoomName:""});
+    } else {
+      alert("You must be signed in to add chat rooms");
+    }
   }
 
   deleteRoom (event) {
     event.preventDefault();
     var roomToDelete = this.state.rooms.filter(room => room.name===event.target.parentNode.firstChild.id);
     console.log(roomToDelete);
-
   }
 
   render() {
