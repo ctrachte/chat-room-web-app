@@ -39,11 +39,13 @@ class MessageList extends Component {
           }
         </div>
         <div id="addMessageContainer">
-          <h3>Send a message:</h3>
-          <form>
-            <textarea id="newMessage"/>
-            <button id="submitMessage" onClick={this.sendMessage}>Submit</button>
-          </form>
+          <label>
+            <h3>Send a message:</h3>
+            <textarea type="text" name="newMessage" onChange={this.sendMessage}/>
+          </label>
+          <div>
+            <input type="submit" value="Submit" />
+          </div>
         </div>
       </section>
     );
