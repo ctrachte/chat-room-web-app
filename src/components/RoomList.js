@@ -5,7 +5,8 @@ class RoomList extends Component {
     super(props);
         this.state = {
           rooms:[],
-          newRoomName:""
+          newRoomName:"",
+          currentRoom:""
         };
         this.roomsRef = this.props.firebase.database().ref('rooms');
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -34,8 +35,9 @@ class RoomList extends Component {
 
   deleteRoom (event) {
     event.preventDefault();
-    const roomToDelete = event.target.parentNode.firstChild.id;
-    this.roomsRef.child(roomToDelete).remove();
+    var roomToDelete = this.state.rooms.filter(room => room.name===event.target.parentNode.firstChild.id);
+    console.log(roomToDelete);
+
   }
 
   render() {

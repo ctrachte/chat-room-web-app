@@ -20,7 +20,7 @@ class App extends Component {
   constructor(props) {
     super(props);
         this.state = {
-          activeRoom:"room1",
+          activeRoom:"",
           currentUser: ""
         };
         this.changeRoom = this.changeRoom.bind(this);
@@ -68,6 +68,7 @@ class App extends Component {
             currentUser={this.state.currentUser}
           />
           <RoomList
+            activeRoom={this.state.activeRoom}
             firebase={firebase}
             changeRoom={this.changeRoom}
           />
