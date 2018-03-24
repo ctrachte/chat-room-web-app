@@ -27,10 +27,11 @@ class MessageList extends Component {
     sendMessage (event) {
       event.preventDefault();
       const messageInput = this.state.newMessage;
+      const messageTime = this.props.timeChange();
       this.messagesRef.push({
         content:messageInput,
         roomId:this.props.activeRoom,
-        sentAt:this.props.firebase.database.ServerValue.TIMESTAMP,
+        sentAt:messageTime,
         username: this.props.currentUser.displayName
       });
       this.setState({newMessage:""});

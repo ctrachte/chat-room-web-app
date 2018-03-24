@@ -27,6 +27,19 @@ class App extends Component {
         this.setUser = this.setUser.bind(this);
   }
 
+  timeChange () {
+    let today = new Date();
+    // Hours part from the timestamp
+    var hours = today.getHours();
+    // Minutes part from the timestamp
+    var minutes = "0" + today.getMinutes();
+    // Will display time in military format
+    var formattedTime = hours + ':' + minutes.substr(-6);
+    //concat the new date to return
+    var newDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + " at " + formattedTime + " CST ";
+    return newDate;
+  }
+
   changeRoom (event) {
     event.preventDefault();
     this.setState({activeRoom: event.target.id});
@@ -49,6 +62,7 @@ class App extends Component {
           currentUser={this.state.currentUser}
           />
           <MessageList
+            timeChange={this.timeChange}
             activeRoom={this.state.activeRoom}
             firebase={firebase}
             currentUser={this.state.currentUser}
