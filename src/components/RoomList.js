@@ -22,7 +22,6 @@ class RoomList extends Component {
 
   handleNameChange(event) {
     this.setState({newRoomName: event.target.value});
-    console.log(event.target.value);
   }
 
   createRoom (event) {

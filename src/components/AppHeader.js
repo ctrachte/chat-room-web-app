@@ -28,7 +28,6 @@ class AppHeader extends Component  {
     this.props.firebase.auth().signOut();
     let user = "";
     this.props.setUser(user);
-    console.log("sign out clicked");
   }
 
   welcomeUser () {
