@@ -7,6 +7,7 @@ class RoomList extends Component {
           rooms:[],
         };
         this.roomsRef = this.props.firebase.database().ref('rooms');
+        this.handleNameChange = this.handleNameChange.bind(this);
         this.createRoom = this.createRoom.bind(this);
         this.deleteRoom = this.deleteRoom.bind(this);
   }
@@ -19,6 +20,10 @@ class RoomList extends Component {
     });
   }
 
+  handleNameChange(event) {
+    this.setState({newRoomName: event.target.value});
+    console.log(event.target.value);
+  }
 
   createRoom (event) {
     event.preventDefault();
@@ -40,7 +45,7 @@ class RoomList extends Component {
           <form onSubmit={this.createRoom}>
             <label>
               New Chat Room:
-              <input type="text" name="name"/>
+              <input type="text" name="name" value={this.state.newRoomName} onChange={this.handleNameChange}/>
             </label>
             <input type="submit" value="Submit" />
           </form>
