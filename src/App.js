@@ -21,7 +21,7 @@ class App extends Component {
     super(props);
         this.state = {
           activeRoom:"room1",
-          currentUser: ""
+          currentUser: "None"
         };
         this.changeRoom = this.changeRoom.bind(this);
         this.setUser = this.setUser.bind(this);
@@ -51,6 +51,7 @@ class App extends Component {
           <MessageList
             activeRoom={this.state.activeRoom}
             firebase={firebase}
+            currentUser={this.state.currentUser}
           />
           <RoomList
             firebase={firebase}

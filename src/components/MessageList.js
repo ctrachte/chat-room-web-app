@@ -4,9 +4,12 @@ class MessageList extends Component {
   constructor(props) {
     super(props);
         this.state = {
-          messages:[]
+          messages:[],
+          newMessage:""
         };
         this.messagesRef = this.props.firebase.database().ref('messages');
+        this.handleMessageSend = this.handleMessageSend.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
   }
 
   componentDidMount() {
@@ -17,11 +20,22 @@ class MessageList extends Component {
     });
     }
 
-  sendMessage (event) {
-    event.preventDefault();
+    handleMessageSend(event) {
+      this.setState({newMessage: event.target.value});
+    }
 
+    sendMessage (event) {
+      event.preventDefault();
+      const messageInput = this.state.newMessage;
+      this.messagesRef.push({
+        content:messageInput,
+        roomId:this.props.activeRoom,
+        sentAt:this.props.firebase.database.ServerValue.TIMESTAMP,
+        username: this.props.currentUser.displayName
+      });
+      this.setState({newMessage:""});
+    }
 
-  }
 
   render() {
     return (
@@ -41,7 +55,7 @@ class MessageList extends Component {
         <form id="addMessageContainer" onSubmit={this.sendMessage}>
           <label>
             <h3>Send a message:</h3>
-            <textarea type="text" name="newMessage"/>
+            <textarea type="text" name="newMessage" onChange={this.handleMessageSend}/>
           </label>
           <div>
             <input type="submit" value="Submit" />
