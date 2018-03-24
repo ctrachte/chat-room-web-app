@@ -26,14 +26,18 @@ class MessageList extends Component {
 
     sendMessage (event) {
       event.preventDefault();
-      const messageInput = this.state.newMessage;
-      const messageTime = this.props.timeChange();
-      this.messagesRef.push({
-        content:messageInput,
-        roomId:this.props.activeRoom,
-        sentAt:messageTime,
-        username: this.props.currentUser.displayName
-      });
+      if (this.props.currentUser) {
+        const messageInput = this.state.newMessage;
+        const messageTime = this.props.timeChange();
+        this.messagesRef.push({
+          content:messageInput,
+          roomId:this.props.activeRoom,
+          sentAt:messageTime,
+          username: this.props.currentUser.displayName
+        });
+      } else {
+        alert("You must be signed in to send messages");
+      }
       this.setState({newMessage:""});
     }
 
