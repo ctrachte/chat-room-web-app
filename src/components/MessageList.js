@@ -21,7 +21,7 @@ class MessageList extends Component {
     return (
       <section className="MessageList">
         <div align="center" className="messages">
-          <h2>Messages:</h2>
+          <h2>{this.props.activeRoom} Messages:</h2>
           {
           this.state.messages.filter(message => message.roomId===this.props.activeRoom).map( (message, index) =>
               <div key={index} className="message">

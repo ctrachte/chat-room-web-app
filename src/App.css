@@ -29,4 +29,6 @@
 
 aside {
   margin-left: 20px;
+  position: absolute;
+  top: 0;
 }
