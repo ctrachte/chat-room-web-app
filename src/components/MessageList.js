@@ -38,15 +38,15 @@ class MessageList extends Component {
           )
           }
         </div>
-        <div id="addMessageContainer">
+        <form id="addMessageContainer" onSubmit={this.sendMessage}>
           <label>
             <h3>Send a message:</h3>
-            <textarea type="text" name="newMessage" onChange={this.sendMessage}/>
+            <textarea type="text" name="newMessage"/>
           </label>
           <div>
             <input type="submit" value="Submit" />
           </div>
-        </div>
+        </form>
       </section>
     );
   }
