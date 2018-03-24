@@ -17,6 +17,12 @@ class MessageList extends Component {
     });
     }
 
+  sendMessage (event) {
+    event.preventDefault();
+
+
+  }
+
   render() {
     return (
       <section className="MessageList">
@@ -31,6 +37,13 @@ class MessageList extends Component {
               </div>
           )
           }
+        </div>
+        <div id="addMessageContainer">
+          <h3>Send a message:</h3>
+          <form>
+            <textarea id="newMessage"/>
+            <button id="submitMessage" onClick={this.sendMessage}>Submit</button>
+          </form>
         </div>
       </section>
     );
