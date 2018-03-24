@@ -7,8 +7,14 @@ class AppHeader extends Component  {
           conversations:[]
         };
         this.activeRoomId = this.props.activeRoomId;
-        this.signIn = this.signOut.bind(this);
+        this.signIn = this.signIn.bind(this);
         this.signOut = this.signOut.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.firebase.auth().onAuthStateChanged( user => {
+      this.props.setUser(user);
+    });
   }
 
   signIn (event) {
@@ -18,8 +24,19 @@ class AppHeader extends Component  {
   }
 
   signOut (event) {
-    event.preventDefault;
+    event.preventDefault();
     this.props.firebase.auth().signOut();
+    let user = "";
+    this.props.setUser(user);
+    console.log("sign out clicked");
+  }
+
+  welcomeUser () {
+    if (this.props.currentUser) {
+      return "Welcome " +  this.props.currentUser.displayName;
+    } else {
+      return "Please sign in to your google account";
+    }
   }
 
   render() {
@@ -27,6 +44,7 @@ class AppHeader extends Component  {
       <section className="header">
         <div align="center" className="messages">
           <h2>React Chat App</h2>
+          <p>{this.welcomeUser()}</p>
           <div id="authentication">
             <button id="signIn" onClick={this.signIn}>Sign In</button>
             <button id="signOut" onClick={this.signOut}>Sign Out</button>

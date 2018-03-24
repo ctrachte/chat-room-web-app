@@ -24,11 +24,16 @@ class App extends Component {
           currentUser: ""
         };
         this.changeRoom = this.changeRoom.bind(this);
+        this.setUser = this.setUser.bind(this);
   }
 
   changeRoom (event) {
     event.preventDefault();
     this.setState({activeRoom: event.target.id});
+  }
+
+  setUser (user) {
+    this.setState({currentUser: user});
   }
 
 
@@ -39,7 +44,9 @@ class App extends Component {
         </header>
         <main>
           <AppHeader
+          setUser={this.setUser}
           firebase={firebase}
+          currentUser={this.state.currentUser}
           />
           <MessageList
             activeRoom={this.state.activeRoom}
