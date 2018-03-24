@@ -5,6 +5,7 @@ class RoomList extends Component {
     super(props);
         this.state = {
           rooms:[],
+          newRoomName:""
         };
         this.roomsRef = this.props.firebase.database().ref('rooms');
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -22,13 +23,13 @@ class RoomList extends Component {
 
   handleNameChange(event) {
     this.setState({newRoomName: event.target.value});
-    console.log(event.target.value);
   }
 
   createRoom (event) {
     event.preventDefault();
     const newChatRoomName = this.state.newRoomName;
     this.roomsRef.push({name: newChatRoomName });
+    this.setState({newRoomName:""});
   }
 
   deleteRoom (event) {

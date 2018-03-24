@@ -60,7 +60,7 @@ class MessageList extends Component {
         <form id="addMessageContainer" onSubmit={this.sendMessage}>
           <label>
             <h3>Send a message:</h3>
-            <textarea type="text" name="newMessage" onChange={this.handleMessageSend}/>
+            <textarea type="text" name="newMessage" value={this.state.newMessage} onChange={this.handleMessageSend}/>
           </label>
           <div>
             <input type="submit" value="Submit" />
