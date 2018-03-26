@@ -39,8 +39,9 @@ class RoomList extends Component {
 
   deleteRoom (event) {
     event.preventDefault();
-    var roomToDelete = this.state.rooms.filter(room => room.name===event.target.parentNode.firstChild.id);
-    console.log(roomToDelete);
+    const roomToDelete = event.target.id;
+    this.roomsRef.child(roomToDelete).remove();
+    // this.state.rooms.filter(room => room.key!==event.target.id);
   }
 
   render() {
@@ -57,9 +58,9 @@ class RoomList extends Component {
           </form>
           {
           this.state.rooms.map( (room, index) =>
-            <div key={index} className="roomContainer" onClick={this.props.changeRoom}>
-              <h3 id={room.name}>{room.name}</h3>
-              <button onClick={this.deleteRoom}>Delete</button>
+            <div key={index} className="roomContainer">
+              <h3 id={room.name} onClick={this.props.changeRoom}>{room.name}</h3>
+              <button id={room.key} onClick={this.deleteRoom}>Delete</button>
             </div>
           )
           }
