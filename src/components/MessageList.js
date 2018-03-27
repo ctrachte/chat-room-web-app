@@ -60,7 +60,7 @@ class MessageList extends Component {
                 <h3>{message.username}: </h3>
                 <p>{message.content}</p>
                 <p>Sent: {message.sentAt}</p>
-                {(this.props.currentUser.displayName===message.username) ? <button id={message.key} onClick={this.deleteMessage}>Delete</button> : null}
+                {(this.props.currentUser.displayName===message.username) ? <button id={message.key} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.deleteMessage}>Delete</button> : null}
               </div>
           )
           }
@@ -71,7 +71,7 @@ class MessageList extends Component {
             <textarea type="text" name="newMessage" value={this.state.newMessage} onChange={this.handleMessageSend}/>
           </label>
           <div>
-            <input type="submit" value="Submit" />
+            <input type="submit" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" value="Submit" />
           </div>
         </form>
       </section>

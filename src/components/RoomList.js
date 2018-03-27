@@ -57,13 +57,13 @@ class RoomList extends Component {
               New Chat Room:
               <input type="text" name="name" value={this.state.newRoomName} onChange={this.handleNameChange}/>
             </label>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="+" className="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" />
           </form>
           {
           this.state.rooms.map( (room, index) =>
             <div key={index} className="roomContainer">
               <h3 id={room.name} onClick={this.props.changeRoom}>{room.name}</h3>
-              <button name={room.name} id={room.key} onClick={this.deleteRoom}>Delete</button>
+              <button name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={room.key} onClick={this.deleteRoom}>Delete</button>
             </div>
           )
           }

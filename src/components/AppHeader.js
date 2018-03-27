@@ -46,9 +46,9 @@ class AppHeader extends Component  {
           <p>{this.welcomeUser()}</p>
           <div id="authentication">
           {!this.props.currentUser ?
-            <button id="signIn" onClick={this.signIn}>Sign In</button>
+            <button id="signIn" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.signIn}>Sign In</button>
              :
-            <button id="signOut" onClick={this.signOut}>Sign Out</button>
+            <button id="signOut" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.signOut}>Sign Out</button>
           }
           </div>
         </div>
