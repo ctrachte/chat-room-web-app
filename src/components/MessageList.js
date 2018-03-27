@@ -16,7 +16,6 @@ class MessageList extends Component {
         this.sendMessage = this.sendMessage.bind(this);
         this.deleteMessage = this.deleteMessage.bind(this);
         this.toggleEditWindow = this.toggleEditWindow.bind(this);
-        this.hoverMessage = this.hoverMessage.bind(this);
   }
 
   componentDidMount() {
@@ -52,19 +51,14 @@ class MessageList extends Component {
       this.messagesRef.child(messageId).remove();
     }
 
-    hoverMessage (event) {
-      event.preventDefault();
-      const messageId = event.target.name;
-      this.setState({currentMessage: messageId});
-      console.log(this.state.currentMessage);
-    }
-
     handleMessageChange(event) {
       this.setState({currentMessage: event.target.value});
     }
 
     toggleEditWindow (event) {
       event.preventDefault();
+      const messageId = event.target.name;
+      this.setState({currentMessage: messageId});
       if (this.state.showEdit) {
         this.setState({showEdit:false})
       } else {
@@ -87,13 +81,13 @@ class MessageList extends Component {
                   <button id={message.key} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.deleteMessage}>Delete</button>
                   : null
                 }
-                {this.state.showEdit ?
+                {this.state.showEdit && this.state.currentMessage===message.content ?
                   <EditText
                     toggleEditWindow={this.toggleEditWindow}
                     currentMessage={this.state.currentMessage}
                   />
                   : ((this.props.currentUser.displayName===message.username) ?
-                    <button id={message.key} name={message.content} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onMouseEnter={this.hoverMessage} onClick={this.toggleEditWindow}>Edit</button>
+                    <button id={message.key} name={message.content} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.toggleEditWindow}>Edit</button>
                       : null
                     )
                 }
