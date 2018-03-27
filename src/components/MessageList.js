@@ -6,12 +6,17 @@ class MessageList extends Component {
     super(props);
         this.state = {
           messages:[],
-          newMessage:""
+          newMessage:"",
+          currentMessage:"",
+          showEdit:false
         };
         this.messagesRef = this.props.firebase.database().ref('messages');
         this.handleMessageSend = this.handleMessageSend.bind(this);
+        this.handleMessageChange = this.handleMessageChange.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         this.deleteMessage = this.deleteMessage.bind(this);
+        this.toggleEditWindow = this.toggleEditWindow.bind(this);
+        this.hoverMessage = this.hoverMessage.bind(this);
   }
 
   componentDidMount() {
@@ -50,6 +55,26 @@ class MessageList extends Component {
       this.messagesRef.child(messageId).remove();
     }
 
+    hoverMessage (event) {
+      event.preventDefault();
+      const messageId = event.target.name;
+      this.setState({currentMessage: messageId});
+      console.log(this.state.currentMessage);
+    }
+
+    handleMessageChange(event) {
+      this.setState({currentMessage: event.target.value});
+    }
+
+    toggleEditWindow (event) {
+      event.preventDefault();
+      if (this.state.showEdit) {
+        this.setState({showEdit:false})
+      } else {
+        this.setState({showEdit:true})
+      }
+    }
+
   render() {
     return (
       <section className="MessageList">
@@ -57,7 +82,7 @@ class MessageList extends Component {
           <h2>{this.props.activeRoom} Messages:</h2>
           {
           this.state.messages.filter(message => message.roomId===this.props.activeRoom).map( (message, index) =>
-              <div key={index} className="message">
+              <div key={index} id={message.content} onClick={this.hoverMessage}>
                 <h3>{message.username}: </h3>
                 <p>{message.content}</p>
                 <p>Sent: {message.sentAt}</p>
@@ -65,7 +90,16 @@ class MessageList extends Component {
                   <button id={message.key} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.deleteMessage}>Delete</button>
                   : null
                 }
-                <EditText/>
+                {this.state.showEdit ?
+                  <EditText
+                    toggleEditWindow={this.toggleEditWindow}
+                    currentMessage={this.state.currentMessage}
+                  />
+                  : ((this.props.currentUser.displayName===message.username) ?
+                    <button id={message.key} name={message.content} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onMouseEnter={this.hoverMessage} onClick={this.toggleEditWindow}>Edit</button>
+                      : null
+                    )
+                }
               </div>
           )
           }
