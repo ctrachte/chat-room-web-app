@@ -28,7 +28,9 @@
 }
 
 aside {
-  margin-left: 20px;
-  position: absolute;
-  top: 0;
+  left: 20px;
+  position: fixed;
+  top:20px;
+  background-color:beige;
+  padding:20px;
 }
