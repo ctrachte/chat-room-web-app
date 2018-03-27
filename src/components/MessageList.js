@@ -53,6 +53,7 @@ class MessageList extends Component {
                 <h3>{message.username}: </h3>
                 <p>{message.content}</p>
                 <p>Sent: {message.sentAt}</p>
+                {(this.props.currentUser.displayName===message.username) ? <button id={message.key} onClick={this.deleteMessage}>Delete</button> : null}
               </div>
           )
           }
