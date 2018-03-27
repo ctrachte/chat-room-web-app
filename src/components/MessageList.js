@@ -10,6 +10,7 @@ class MessageList extends Component {
         this.messagesRef = this.props.firebase.database().ref('messages');
         this.handleMessageSend = this.handleMessageSend.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
+        this.deleteMessage = this.deleteMessage.bind(this);
   }
 
   componentDidMount() {
@@ -40,7 +41,13 @@ class MessageList extends Component {
       }
       this.setState({newMessage:""});
     }
-
+    deleteMessage (event) {
+      event.preventDefault();
+      const messageId = event.target.id;
+      const newMessageArray = this.state.messages.filter(message => message.key !== messageId);
+      this.setState({messages: newMessageArray});
+      this.messagesRef.child(messageId).remove();
+    }
 
   render() {
     return (
