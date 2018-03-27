@@ -32,7 +32,7 @@ class AppHeader extends Component  {
     if (this.props.currentUser) {
       return "Welcome " +  this.props.currentUser.displayName;
     } else {
-      return "Please sign in to your google account to view chat rooms and messages.";
+      return "Please sign in to your google account.";
     }
   }
 
