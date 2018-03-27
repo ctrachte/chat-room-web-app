@@ -13,7 +13,6 @@ class EditText extends Component  {
         <div id="edit-window">
           <form id={this.props.currentMessage} onSubmit={this.props.updateMessage}>
             <label>
-              <h3>Edit message:</h3>
               <textarea type="text" name="editMessageText" value={this.props.currentMessageText} onChange={this.props.handleMessageChange}/>
             </label>
             <div>

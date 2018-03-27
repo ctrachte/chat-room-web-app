@@ -35,9 +35,6 @@ class AppHeader extends Component  {
       return "Please sign in to your google account.";
     }
   }
-  refresh () {
-    window.location.reload();
-  }
 
   render() {
     return (

@@ -49,6 +49,10 @@ class App extends Component {
     this.setState({currentUser: user});
   }
 
+  refresh () {
+    window.location.reload();
+  }
+
 
   render() {
     return (
@@ -67,6 +71,7 @@ class App extends Component {
             activeRoom={this.state.activeRoom}
             firebase={firebase}
             currentUser={this.state.currentUser}
+            refresh={this.refresh}
           />
             : null
           }
