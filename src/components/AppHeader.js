@@ -45,8 +45,11 @@ class AppHeader extends Component  {
           <h2>React Chat App</h2>
           <p>{this.welcomeUser()}</p>
           <div id="authentication">
+          {!this.props.currentUser ?
             <button id="signIn" onClick={this.signIn}>Sign In</button>
+             :
             <button id="signOut" onClick={this.signOut}>Sign Out</button>
+          }
           </div>
         </div>
       </section>

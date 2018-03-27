@@ -61,12 +61,15 @@ class App extends Component {
           firebase={firebase}
           currentUser={this.state.currentUser}
           />
+          {this.state.currentUser && this.state.activeRoom ?
           <MessageList
             timeChange={this.timeChange}
             activeRoom={this.state.activeRoom}
             firebase={firebase}
             currentUser={this.state.currentUser}
           />
+            : null
+          }
           <RoomList
             currentUser={this.state.currentUser}
             activeRoom={this.state.activeRoom}
