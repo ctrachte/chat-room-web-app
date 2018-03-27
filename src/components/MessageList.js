@@ -59,29 +59,26 @@ class MessageList extends Component {
 
     updateMessage (event) {
       event.preventDefault();
+      const editedTime = String(this.props.timeChange());
       const messageEdit = this.state.currentMessageText;
       const messageToEdit = event.target.id;
-      console.log(messageToEdit, messageEdit);
-      this.messagesRef.child(messageToEdit).update({content: messageEdit});
+      this.messagesRef.child(messageToEdit).update({content: messageEdit, sentAt:editedTime + "(Edited)"});
+      this.setState({currentMessage:'', currentMessageText:'', showEdit:false});
     }
 
     toggleEditWindow (event) {
       event.preventDefault();
-      const messageId = event.target.id;
-      const messageName = event.target.name;
+      this.setState({showEdit:true})
+      let messageId = event.target.id;
+      let messageName = event.target.name;
       this.setState({currentMessage: messageId, currentMessageText:messageName});
-      if (this.state.showEdit) {
-        this.setState({showEdit:false})
-      } else {
-        this.setState({showEdit:true})
-      }
     }
 
   render() {
     return (
       <section className="MessageList">
         <div align="center" className="messages">
-          <h2>{this.props.activeRoom} Messages:</h2>
+          <h3>{this.props.activeRoom} Messages:</h3>
           {
           this.state.messages.filter(message => message.roomId===this.props.activeRoom).map( (message, index) =>
               <div key={index} id={message.content}>
