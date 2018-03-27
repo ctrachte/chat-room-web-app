@@ -32,7 +32,7 @@ class App extends Component {
     // Hours part from the timestamp
     var hours = today.getHours();
     // Minutes part from the timestamp
-    var minutes = (String(today.getMinutes()).length > 1) ? (today.getMinutes()) : ("0" + today.getMinutes());
+    var minutes = (String(today.getMinutes()).length > 1) ? String(today.getMinutes()) : String("0" + today.getMinutes());
     // Will display time in military format
     var formattedTime = hours + ':' + minutes.substr(-6);
     //concat the new date to return
