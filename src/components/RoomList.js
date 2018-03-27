@@ -23,6 +23,7 @@ class RoomList extends Component {
   }
 
   handleNameChange(event) {
+    event.preventDefault();
     this.setState({newRoomName: event.target.value});
   }
 
@@ -52,13 +53,7 @@ class RoomList extends Component {
       <section className="RoomList">
         <aside align="left" className="sidebar">
           <h2>Chat Rooms</h2>
-          <form onSubmit={this.createRoom}>
-            <label>
-              New Chat Room:
-              <input type="text" name="name" value={this.state.newRoomName} onChange={this.handleNameChange}/>
-            </label>
-            <input type="submit" value="+" className="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" />
-          </form>
+
           {
           this.state.rooms.map( (room, index) =>
             <div key={index} className="roomContainer">
@@ -67,6 +62,15 @@ class RoomList extends Component {
             </div>
           )
           }
+
+          <form onSubmit={this.createRoom}>
+            <label>
+              New Chat Room:
+              <input type="text" name="name" value={this.state.newRoomName} onChange={this.handleNameChange}/>
+            </label>
+            <input type="submit" value="+" className="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" />
+          </form>
+          
         </aside>
       </section>
     );

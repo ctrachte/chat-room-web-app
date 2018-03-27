@@ -42,7 +42,6 @@ class App extends Component {
   }
 
   changeRoom (event) {
-    event.preventDefault();
     this.setState({activeRoom: event.target.id});
   }
 
@@ -71,12 +70,15 @@ class App extends Component {
           />
             : null
           }
+          {this.state.currentUser ?
           <RoomList
             currentUser={this.state.currentUser}
             activeRoom={this.state.activeRoom}
             firebase={firebase}
             changeRoom={this.changeRoom}
           />
+            : null
+          }
         </main>
       </div>
     );

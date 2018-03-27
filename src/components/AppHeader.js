@@ -18,13 +18,11 @@ class AppHeader extends Component  {
   }
 
   signIn (event) {
-    event.preventDefault();
     const provider = new this.props.firebase.auth.GoogleAuthProvider();
     this.props.firebase.auth().signInWithPopup( provider );
   }
 
   signOut (event) {
-    event.preventDefault();
     this.props.firebase.auth().signOut();
     let user = "";
     this.props.setUser(user);
@@ -34,7 +32,7 @@ class AppHeader extends Component  {
     if (this.props.currentUser) {
       return "Welcome " +  this.props.currentUser.displayName;
     } else {
-      return "Please sign in to your google account";
+      return "Please sign in to your google account to view chat rooms and messages.";
     }
   }
 

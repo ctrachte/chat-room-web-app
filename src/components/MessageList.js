@@ -33,20 +33,17 @@ class MessageList extends Component {
 
     sendMessage (event) {
       event.preventDefault();
-      if (this.props.currentUser) {
-        const messageInput = this.state.newMessage;
-        const messageTime = this.props.timeChange();
-        this.messagesRef.push({
-          content:messageInput,
-          roomId:this.props.activeRoom,
-          sentAt:messageTime,
-          username: this.props.currentUser.displayName
-        });
-      } else {
-        alert("You must be signed in to send messages");
-      }
+      const messageInput = this.state.newMessage;
+      const messageTime = this.props.timeChange();
+      this.messagesRef.push({
+        content:messageInput,
+        roomId:this.props.activeRoom,
+        sentAt:messageTime,
+        username: this.props.currentUser.displayName
+      });
       this.setState({newMessage:""});
     }
+
     deleteMessage (event) {
       event.preventDefault();
       const messageId = event.target.id;
