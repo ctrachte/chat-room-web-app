@@ -8,6 +8,7 @@ class MessageList extends Component {
           messages:[],
           newMessage:"",
           currentMessage:"",
+          currentMessageText:"",
           showEdit:false
         };
         this.messagesRef = this.props.firebase.database().ref('messages');
@@ -16,6 +17,7 @@ class MessageList extends Component {
         this.sendMessage = this.sendMessage.bind(this);
         this.deleteMessage = this.deleteMessage.bind(this);
         this.toggleEditWindow = this.toggleEditWindow.bind(this);
+        this.updateMessage = this.updateMessage.bind(this);
   }
 
   componentDidMount() {
@@ -52,13 +54,22 @@ class MessageList extends Component {
     }
 
     handleMessageChange(event) {
-      this.setState({currentMessage: event.target.value});
+      this.setState({currentMessageText: event.target.value});
+    }
+
+    updateMessage (event) {
+      event.preventDefault();
+      const messageEdit = this.state.currentMessageText;
+      const messageToEdit = event.target.id;
+      console.log(messageToEdit, messageEdit);
+      this.messagesRef.child(messageToEdit).update({content: messageEdit});
     }
 
     toggleEditWindow (event) {
       event.preventDefault();
-      const messageId = event.target.name;
-      this.setState({currentMessage: messageId});
+      const messageId = event.target.id;
+      const messageName = event.target.name;
+      this.setState({currentMessage: messageId, currentMessageText:messageName});
       if (this.state.showEdit) {
         this.setState({showEdit:false})
       } else {
@@ -73,7 +84,7 @@ class MessageList extends Component {
           <h2>{this.props.activeRoom} Messages:</h2>
           {
           this.state.messages.filter(message => message.roomId===this.props.activeRoom).map( (message, index) =>
-              <div key={index} id={message.content} onClick={this.hoverMessage}>
+              <div key={index} id={message.content}>
                 <h3>{message.username}: </h3>
                 <p>{message.content}</p>
                 <p>Sent: {message.sentAt}</p>
@@ -81,8 +92,11 @@ class MessageList extends Component {
                   <button id={message.key} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.deleteMessage}>Delete</button>
                   : null
                 }
-                {this.state.showEdit && this.state.currentMessage===message.content ?
+                {this.state.showEdit && this.state.currentMessage===message.key ?
                   <EditText
+                    handleMessageChange={this.handleMessageChange}
+                    updateMessage={this.updateMessage}
+                    currentMessageText={this.state.currentMessageText}
                     toggleEditWindow={this.toggleEditWindow}
                     currentMessage={this.state.currentMessage}
                   />

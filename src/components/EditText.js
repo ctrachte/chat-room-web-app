@@ -4,18 +4,21 @@ class EditText extends Component  {
   constructor(props) {
     super(props);
         this.state = {
+          currentMessageText:""
         };
   }
 
   render() {
     return (
         <div id="edit-window">
-          <form>
+          <form id={this.props.currentMessage} onSubmit={this.props.updateMessage}>
             <label>
-              Edit Message:
-              <textarea type="text" name="name" value={this.props.currentMessage} onChange={this.props.handleMessageChange} />
+              <h3>Edit message:</h3>
+              <textarea type="text" name="editMessageText" value={this.props.currentMessageText} onChange={this.props.handleMessageChange}/>
             </label>
-            <input type="submit" value="Publish Changes" className="mdl-button mdl-js-button mdl-button mdl-button--colored" onClick={this.props.toggleEditWindow}/>
+            <div>
+              <input type="submit" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" value="Submit Changes" />
+            </div>
           </form>
         </div>
     );
