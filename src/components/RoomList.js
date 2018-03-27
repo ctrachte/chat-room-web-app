@@ -52,17 +52,19 @@ class RoomList extends Component {
     return (
       <section className="RoomList">
         <aside align="left" className="sidebar">
-          <h2>Chat Rooms</h2>
-
+          <h2>Chat Rooms:</h2>
           {
           this.state.rooms.map( (room, index) =>
             <div key={index} className="roomContainer">
               <h3 id={room.name} onClick={this.props.changeRoom}>{room.name}</h3>
-              <button name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={room.key} onClick={this.deleteRoom}>Delete</button>
+              {this.props.currentUser ?
+                <button name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={room.key} onClick={this.deleteRoom}>Delete</button>
+                : null
+              }
             </div>
           )
           }
-
+          {this.props.currentUser ?
           <form onSubmit={this.createRoom}>
             <label>
               New Chat Room:
@@ -70,7 +72,8 @@ class RoomList extends Component {
             </label>
             <input type="submit" value="+" className="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" />
           </form>
-          
+            : null
+          }
         </aside>
       </section>
     );
