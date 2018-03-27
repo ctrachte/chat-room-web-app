@@ -39,9 +39,12 @@ class RoomList extends Component {
 
   deleteRoom (event) {
     event.preventDefault();
-    const roomToDelete = event.target.id;
-    this.roomsRef.child(roomToDelete).remove();
-    // this.state.rooms.filter(room => room.key!==event.target.id);
+    const firstRoom = this.state.rooms[0].name;
+    const roomId = event.target.id;
+    const roomName = event.target.name;
+    const newRoomArray = this.state.rooms.filter(room => room.name !== roomName);
+    (roomName===this.state.currentRoom) ? (this.setState({currentRoom:firstRoom, rooms: newRoomArray})) : (this.setState({rooms: newRoomArray}));
+    this.roomsRef.child(roomId).remove();
   }
 
   render() {
@@ -60,7 +63,7 @@ class RoomList extends Component {
           this.state.rooms.map( (room, index) =>
             <div key={index} className="roomContainer">
               <h3 id={room.name} onClick={this.props.changeRoom}>{room.name}</h3>
-              <button id={room.key} onClick={this.deleteRoom}>Delete</button>
+              <button name={room.name} id={room.key} onClick={this.deleteRoom}>Delete</button>
             </div>
           )
           }
