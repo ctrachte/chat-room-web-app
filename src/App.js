@@ -5,6 +5,7 @@ import AppHeader from './components/AppHeader';
 import RoomList from './components/RoomList';
 import MessageList from './components/MessageList';
 
+
 var config = {
   apiKey: "AIzaSyDu2J3W06iZPskgdnT1_25vqRZbRd8IUrs",
   authDomain: "chat-app-react-2.firebaseapp.com",

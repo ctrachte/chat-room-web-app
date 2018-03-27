@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import EditText from './EditText.js';
 
 class MessageList extends Component {
   constructor(props) {
@@ -60,7 +61,11 @@ class MessageList extends Component {
                 <h3>{message.username}: </h3>
                 <p>{message.content}</p>
                 <p>Sent: {message.sentAt}</p>
-                {(this.props.currentUser.displayName===message.username) ? <button id={message.key} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.deleteMessage}>Delete</button> : null}
+                {(this.props.currentUser.displayName===message.username) ?
+                  <button id={message.key} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.deleteMessage}>Delete</button>
+                  : null
+                }
+                <EditText/>
               </div>
           )
           }
