@@ -17,8 +17,9 @@ class MessageList extends Component {
         this.handleMessageChange = this.handleMessageChange.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         this.deleteMessage = this.deleteMessage.bind(this);
-        this.toggleEditWindow = this.toggleEditWindow.bind(this);
+        this.openEditWindow = this.openEditWindow.bind(this);
         this.updateMessage = this.updateMessage.bind(this);
+        this.cancelEdit = this.cancelEdit.bind(this);
   }
 
   componentDidMount() {
@@ -71,12 +72,16 @@ class MessageList extends Component {
       this.setState({showEdit:false, editedTime:time, messages:newMessages});
     }
 
-    toggleEditWindow (event) {
+    openEditWindow (event) {
       event.preventDefault();
-      this.setState({showEdit:true})
       let messageId = event.target.id;
       let messageName = event.target.name;
-      this.setState({currentMessage: messageId, currentMessageText:messageName});
+      this.setState({currentMessage: messageId, currentMessageText:messageName, showEdit:true});
+    }
+
+    cancelEdit (event) {
+      event.preventDefault();
+      this.setState({currentMessage:"", currentMessageText:"", editedTime:"", showEdit:false})
     }
 
   render() {
@@ -99,11 +104,12 @@ class MessageList extends Component {
                     handleMessageChange={this.handleMessageChange}
                     updateMessage={this.updateMessage}
                     currentMessageText={this.state.currentMessageText}
-                    toggleEditWindow={this.toggleEditWindow}
+                    openEditWindow={this.openEditWindow}
                     currentMessage={this.state.currentMessage}
+                    cancelEdit={this.cancelEdit}
                   />
                   : ((this.props.currentUser.displayName===message.username && !this.state.showEdit) ?
-                    <button id={message.key} name={this.state.currentMessageText} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.toggleEditWindow}>Edit</button>
+                    <button id={message.key} name={message.content} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.openEditWindow}>Edit</button>
                       : null
                     )
                 }
@@ -111,6 +117,7 @@ class MessageList extends Component {
           )
           }
         </div>
+        {!this.state.showEdit ? 
         <form id="addMessageContainer" onSubmit={this.sendMessage}>
           <label>
             <h4>Send a message:</h4>
@@ -120,6 +127,8 @@ class MessageList extends Component {
             <input type="submit" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" value="Submit" />
           </div>
         </form>
+          : null
+        }
       </section>
     );
   }
