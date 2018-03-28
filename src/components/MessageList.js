@@ -9,6 +9,7 @@ class MessageList extends Component {
           newMessage:"",
           currentMessage:"",
           currentMessageText:"",
+          editedTime:"",
           showEdit:false
         };
         this.messagesRef = this.props.firebase.database().ref('messages');
@@ -35,7 +36,7 @@ class MessageList extends Component {
     sendMessage (event) {
       event.preventDefault();
       const messageInput = this.state.newMessage;
-      const messageTime = this.props.timeChange();
+      const messageTime = "Sent on: " + this.props.timeChange();
       this.messagesRef.push({
         content:messageInput,
         roomId:this.props.activeRoom,
@@ -59,11 +60,11 @@ class MessageList extends Component {
 
     updateMessage (event) {
       event.preventDefault();
-      const editedTime = String(this.props.timeChange());
+      let time = "Edited on: " + String(this.props.timeChange());
       const messageEdit = this.state.currentMessageText;
       const messageToEdit = event.target.id;
-      this.messagesRef.child(messageToEdit).update({content: messageEdit, sentAt:editedTime + "(Edited)"});
-      this.setState({showEdit:false});
+      this.messagesRef.child(messageToEdit).update({content: messageEdit, sentAt:time});
+      this.setState({showEdit:false, editedTime:time});
     }
 
     toggleEditWindow (event) {
@@ -84,7 +85,7 @@ class MessageList extends Component {
               <div key={index} id={message.content}>
                 <h3>{message.username}: </h3>
                 <p>{(this.state.currentMessageText && this.props.activeRoom===message.roomId && this.state.currentMessage===message.key) ? this.state.currentMessageText : message.content}</p>
-                <p>Sent: {message.sentAt}</p>
+                <p>{(this.state.editedTime && this.props.activeRoom===message.roomId && this.state.currentMessage===message.key) ? this.state.editedTime : message.sentAt}</p>
                 {(this.props.currentUser.displayName===message.username) ?
                   <button id={message.key} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.deleteMessage}>Delete</button>
                   : null
