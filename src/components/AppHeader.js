@@ -3,10 +3,7 @@ import React, { Component } from 'react';
 class AppHeader extends Component  {
   constructor(props) {
     super(props);
-        this.state = {
-          conversations:[]
-        };
-        this.activeRoomId = this.props.activeRoomId;
+        this.state = {};
         this.signIn = this.signIn.bind(this);
         this.signOut = this.signOut.bind(this);
   }
@@ -24,8 +21,7 @@ class AppHeader extends Component  {
 
   signOut (event) {
     this.props.firebase.auth().signOut();
-    let user = "";
-    this.props.setUser(user);
+    window.location.reload();
   }
 
   welcomeUser () {
