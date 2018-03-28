@@ -60,7 +60,7 @@ class MessageList extends Component {
 
     updateMessage (event) {
       event.preventDefault();
-      let time = "Edited on: " + String(this.props.timeChange());
+      let time = "Last Edited on: " + String(this.props.timeChange());
       const messageEdit = this.state.currentMessageText;
       const messageToEdit = event.target.id;
       this.messagesRef.child(messageToEdit).update({content: messageEdit, sentAt:time});
@@ -98,7 +98,7 @@ class MessageList extends Component {
                     toggleEditWindow={this.toggleEditWindow}
                     currentMessage={this.state.currentMessage}
                   />
-                  : ((this.props.currentUser.displayName===message.username) ?
+                  : ((this.props.currentUser.displayName===message.username && !this.state.showEdit) ?
                     <button id={message.key} name={this.state.currentMessageText} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.toggleEditWindow}>Edit</button>
                       : null
                     )
@@ -109,7 +109,7 @@ class MessageList extends Component {
         </div>
         <form id="addMessageContainer" onSubmit={this.sendMessage}>
           <label>
-            <h3>Send a message:</h3>
+            <h4>Send a message:</h4>
             <textarea type="text" name="newMessage" value={this.state.newMessage} onChange={this.handleMessageSend}/>
           </label>
           <div>
