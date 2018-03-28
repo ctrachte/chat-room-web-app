@@ -63,7 +63,7 @@ class MessageList extends Component {
       const messageEdit = this.state.currentMessageText;
       const messageToEdit = event.target.id;
       this.messagesRef.child(messageToEdit).update({content: messageEdit, sentAt:editedTime + "(Edited)"});
-      this.setState({currentMessage:'', currentMessageText:'', showEdit:false});
+      this.setState({showEdit:false});
     }
 
     toggleEditWindow (event) {
@@ -83,7 +83,7 @@ class MessageList extends Component {
           this.state.messages.filter(message => message.roomId===this.props.activeRoom).map( (message, index) =>
               <div key={index} id={message.content}>
                 <h3>{message.username}: </h3>
-                <p>{message.content}</p>
+                <p>{(this.state.currentMessageText && this.props.activeRoom===message.roomId && this.state.currentMessage===message.key) ? this.state.currentMessageText : message.content}</p>
                 <p>Sent: {message.sentAt}</p>
                 {(this.props.currentUser.displayName===message.username) ?
                   <button id={message.key} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.deleteMessage}>Delete</button>
