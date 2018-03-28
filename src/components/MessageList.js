@@ -86,7 +86,7 @@ class MessageList extends Component {
                 <h3>{message.username}: </h3>
                 <p>{(this.state.currentMessageText && this.props.activeRoom===message.roomId && this.state.currentMessage===message.key) ? this.state.currentMessageText : message.content}</p>
                 <p>{(this.state.editedTime && this.props.activeRoom===message.roomId && this.state.currentMessage===message.key) ? this.state.editedTime : message.sentAt}</p>
-                {(this.props.currentUser.displayName===message.username) ?
+                {(this.props.currentUser.displayName===message.username && !this.state.showEdit) ?
                   <button id={message.key} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.deleteMessage}>Delete</button>
                   : null
                 }
@@ -99,7 +99,7 @@ class MessageList extends Component {
                     currentMessage={this.state.currentMessage}
                   />
                   : ((this.props.currentUser.displayName===message.username) ?
-                    <button id={message.key} name={message.content} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.toggleEditWindow}>Edit</button>
+                    <button id={message.key} name={this.state.currentMessageText} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.toggleEditWindow}>Edit</button>
                       : null
                     )
                 }
