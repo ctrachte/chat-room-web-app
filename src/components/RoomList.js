@@ -94,11 +94,11 @@ class RoomList extends Component {
           this.state.rooms.map( (room, index) =>
             <div key={index} className="roomContainer">
               <h3 id={room.key} onClick={this.props.changeRoom}>{room.name}</h3>
-              {(!this.state.currentUser && this.props.activeRoom==room.name) ?
-                <button name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={room.key} onClick={this.deleteRoom}><i className="material-icons">delete</i></button>
+              {(!this.state.currentUser && this.props.activeRoom==room.name  && this.props.currentUser && !this.state.showEdit) ?
+                <button name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={room.key} onClick={this.deleteRoom}>delete</button>
                 : null
               }
-              {this.state.showEdit && this.state.currentRoomId===room.key ?
+              {this.state.showEdit && this.state.currentRoomId===room.key && this.props.currentUser ?
                 <EditText
                   handleMessageChange={this.handleRoomNameChange}
                   updateMessage={this.updateRoomId}
@@ -107,15 +107,15 @@ class RoomList extends Component {
                   currentMessage={this.state.currentRoomId}
                   cancelEdit={this.cancelEdit}
                 />
-                : ((!this.state.showEdit && this.props.activeRoom==room.name) ?
-                  <button id={room.key} name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.openEditWindow}><i className="material-icons">edit</i></button>
+                : ((!this.state.showEdit && this.props.activeRoom==room.name  && this.props.currentUser) ?
+                  <button id={room.key} name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.openEditWindow}>edit</button>
                     : null
                   )
               }
             </div>
           )
           }
-          {this.props.currentUser ?
+          {this.props.currentUser  && !this.state.showEdit ?
           <form onSubmit={this.createRoom}>
             <label>
               New Chat Room:
