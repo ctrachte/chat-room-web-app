@@ -96,7 +96,7 @@ class MessageList extends Component {
                 <p>{message.content}</p>
                 <p>{(this.state.editedTime && this.props.activeRoom===message.roomId && this.state.currentMessage===message.key) ? this.state.editedTime : message.sentAt}</p>
                 {(this.props.currentUser.displayName===message.username && !this.state.showEdit) ?
-                  <button id={message.key} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.deleteMessage}>Delete</button>
+                  <button id={message.key} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.deleteMessage}><i className="material-icons">delete</i></button>
                   : null
                 }
                 {this.state.showEdit && this.state.currentMessage===message.key ?
@@ -109,7 +109,7 @@ class MessageList extends Component {
                     cancelEdit={this.cancelEdit}
                   />
                   : ((this.props.currentUser.displayName===message.username && !this.state.showEdit) ?
-                    <button id={message.key} name={message.content} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.openEditWindow}>Edit</button>
+                    <button id={message.key} name={message.content} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.openEditWindow}><i className="material-icons">edit</i></button>
                       : null
                     )
                 }
@@ -117,7 +117,7 @@ class MessageList extends Component {
           )
           }
         </div>
-        {!this.state.showEdit ? 
+        {!this.state.showEdit ?
         <form id="addMessageContainer" onSubmit={this.sendMessage}>
           <label>
             <h4>Send a message:</h4>
