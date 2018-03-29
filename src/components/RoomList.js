@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import EditText from './EditText.js';
+
 
 class RoomList extends Component {
   constructor(props) {
@@ -6,12 +8,19 @@ class RoomList extends Component {
         this.state = {
           rooms:[],
           newRoomName:"",
-          currentRoom:""
+          currentRoomId:"",
+          currentRoomName:"",
+          showEdit:false,
+          isAdmin:true,
         };
         this.roomsRef = this.props.firebase.database().ref('rooms');
-        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleRoomNameChange = this.handleRoomNameChange.bind(this);
+        this.handleNewRoomName = this.handleNewRoomName.bind(this);
         this.createRoom = this.createRoom.bind(this);
         this.deleteRoom = this.deleteRoom.bind(this);
+        this.updateRoomId = this.updateRoomId.bind(this);
+        this.openEditWindow = this.openEditWindow.bind(this);
+        this.cancelEdit = this.cancelEdit.bind(this);
   }
 
   componentDidMount() {
@@ -21,20 +30,24 @@ class RoomList extends Component {
       this.setState({ rooms: this.state.rooms.concat( room ) });
     });
   }
-
-  handleNameChange(event) {
+  handleNewRoomName (event) {
     event.preventDefault();
-    this.setState({newRoomName: event.target.value});
+    this.setState({newRoomName:event.target.value});
+  }
+
+  handleRoomNameChange(event) {
+    event.preventDefault();
+    this.setState({currentRoomName: event.target.value});
   }
 
   createRoom (event) {
     event.preventDefault();
-    if (this.props.currentUser) {
+    if (this.state.isAdmin) {
       const newChatRoomName = this.state.newRoomName;
       this.roomsRef.push({name: newChatRoomName });
       this.setState({newRoomName:""});
     } else {
-      alert("You must be signed in to add chat rooms");
+      alert("You must be the admin to add chat rooms");
     }
   }
 
@@ -44,8 +57,32 @@ class RoomList extends Component {
     const roomId = event.target.id;
     const roomName = event.target.name;
     const newRoomArray = this.state.rooms.filter(room => room.name !== roomName);
-    (roomName===this.state.currentRoom) ? (this.setState({currentRoom:firstRoom, rooms: newRoomArray})) : (this.setState({rooms: newRoomArray}));
+    (roomName===this.state.currentRoomId) ? (this.setState({currentRoomId:firstRoom, rooms: newRoomArray})) : (this.setState({rooms: newRoomArray}));
     this.roomsRef.child(roomId).remove();
+  }
+
+  updateRoomId (event) {
+    event.preventDefault();
+    let newRoomName = this.state.currentRoomName;
+    let roomToEdit = event.target.id;
+    this.roomsRef.child(roomToEdit).update({name: newRoomName});
+    let newRooms = this.state.rooms.map((entry) => {
+      if (entry.key === roomToEdit) {entry.name = newRoomName;}
+        return entry;
+      });
+    this.setState({rooms:newRooms, showEdit:false});
+  }
+
+  openEditWindow (event) {
+    event.preventDefault();
+    let roomId = event.target.id;
+    let roomName = event.target.name;
+    this.setState({currentRoomId: roomId, currentRoomName:roomName, showEdit:true});
+  }
+
+  cancelEdit (event) {
+    event.preventDefault();
+    this.setState({currentRoomId:"", currentRoomName:"", showEdit:false})
   }
 
   render() {
@@ -56,10 +93,24 @@ class RoomList extends Component {
           {
           this.state.rooms.map( (room, index) =>
             <div key={index} className="roomContainer">
-              <h3 id={room.name} onClick={this.props.changeRoom}>{room.name}</h3>
-              {this.props.currentUser ?
-                <button name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={room.key} onClick={this.deleteRoom}>Delete</button>
+              <h3 id={room.key} onClick={this.props.changeRoom}>{room.name}</h3>
+              {(!this.state.currentUser && this.props.activeRoom==room.name) ?
+                <button name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={room.key} onClick={this.deleteRoom}><i className="material-icons">delete</i></button>
                 : null
+              }
+              {this.state.showEdit && this.state.currentRoomId===room.key ?
+                <EditText
+                  handleMessageChange={this.handleRoomNameChange}
+                  updateMessage={this.updateRoomId}
+                  currentMessageText={this.state.currentRoomName}
+                  openEditWindow={this.openEditWindow}
+                  currentMessage={this.state.currentRoomId}
+                  cancelEdit={this.cancelEdit}
+                />
+                : ((!this.state.showEdit && this.props.activeRoom==room.name) ?
+                  <button id={room.key} name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.openEditWindow}><i className="material-icons">edit</i></button>
+                    : null
+                  )
               }
             </div>
           )
@@ -68,7 +119,7 @@ class RoomList extends Component {
           <form onSubmit={this.createRoom}>
             <label>
               New Chat Room:
-              <input type="text" name="name" value={this.state.newRoomName} onChange={this.handleNameChange}/>
+              <input type="text" name="name" value={this.state.newRoomName} onChange={this.handleNewRoomName}/>
             </label>
             <input type="submit" value="+" className="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" />
           </form>

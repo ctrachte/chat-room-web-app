@@ -42,7 +42,7 @@ class App extends Component {
   }
 
   changeRoom (event) {
-    this.setState({activeRoom: event.target.id});
+    this.setState({activeRoom: event.target.innerHTML});
   }
 
   setUser (user) {
