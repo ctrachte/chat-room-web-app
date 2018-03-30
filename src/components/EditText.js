@@ -17,9 +17,10 @@ class EditText extends Component  {
             </label>
             <div>
               <input type="submit" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" value="Submit Changes" />
+              <button id="cancel-button" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.props.cancelEdit}>X</button>
             </div>
           </form>
-          <button id="cancel-button" onClick={this.props.cancelEdit}>X</button>
+
         </div>
     );
   }

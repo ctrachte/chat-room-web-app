@@ -1,4 +1,6 @@
-Simple chatroom application built with React
+Simple chatroom application built with React as a front-end, Google's Firebase as a back-end, and Material Design Lite for styling.
+
+Goal is to satisfy the below user stories:
 
 **User Stories:**
 - As a: user, I want to see a list of available chat rooms
