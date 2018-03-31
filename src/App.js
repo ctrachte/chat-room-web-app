@@ -75,7 +75,7 @@ class App extends Component {
             : null
           }
           <RoomList
-            isAdmin={this.state.isSiteAdmin}
+            isSiteAdmin={this.state.isSiteAdmin}
             currentUser={this.state.currentUser}
             activeRoom={this.state.activeRoom}
             firebase={firebase}
