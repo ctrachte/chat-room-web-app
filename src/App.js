@@ -23,6 +23,7 @@ class App extends Component {
         this.state = {
           activeRoom:"",
           currentUser: "",
+          isSiteAdmin:false
         };
         this.changeRoom = this.changeRoom.bind(this);
         this.setUser = this.setUser.bind(this);
@@ -46,13 +47,9 @@ class App extends Component {
   }
 
   setUser (user) {
-    this.setState({currentUser: user});
+    this.setState({ currentUser: user });
+    this.setState({ isSiteAdmin: (this.state.currentUser.displayName==="Caleb Trachte" ? true : false) })
   }
-
-  refresh () {
-    window.location.reload();
-  }
-
 
   render() {
     return (
@@ -76,6 +73,7 @@ class App extends Component {
             : null
           }
           <RoomList
+            isAdmin={this.state.isSiteAdmin}
             currentUser={this.state.currentUser}
             activeRoom={this.state.activeRoom}
             firebase={firebase}
