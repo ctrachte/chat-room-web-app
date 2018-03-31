@@ -95,12 +95,16 @@ class RoomList extends Component {
           this.state.rooms.map( (room, index) =>
             <div key={index} className="roomContainer">
               <h3 id={room.key} onClick={this.props.changeRoom}>{room.name}</h3>
-                <UserList
-                  roomKey={room.key}
-                  roomName={room.name}
-                  firebase={this.props.firebase}
-                />
-              {(!this.state.currentUser && this.props.activeRoom==room.name  && this.props.currentUser && !this.state.showEdit) ?
+                {(!this.state.currentUser && this.props.activeRoom===room.name  && this.props.currentUser && !this.state.showEdit) ?
+                  <UserList
+                    roomKey={room.key}
+                    roomName={room.name}
+                    firebase={this.props.firebase}
+                    currentUser={this.props.currentUser}
+                  />
+                  : null
+                }
+              {(!this.state.currentUser && this.props.activeRoom===room.name  && this.props.currentUser && !this.state.showEdit) ?
                 <button name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={room.key} onClick={this.deleteRoom}>delete</button>
                 : null
               }
@@ -113,7 +117,7 @@ class RoomList extends Component {
                   currentMessage={this.state.currentRoomId}
                   cancelEdit={this.cancelEdit}
                 />
-                : ((!this.state.showEdit && this.props.activeRoom==room.name  && this.props.currentUser) ?
+                : ((!this.state.showEdit && this.props.activeRoom===room.name  && this.props.currentUser) ?
                   <button id={room.key} name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.openEditWindow}>edit</button>
                     : null
                   )
