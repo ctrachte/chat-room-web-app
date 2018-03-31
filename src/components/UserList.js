@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import EditText from "./EditText.js"
 
 class UserList extends Component  {
   constructor(props) {
@@ -29,7 +30,9 @@ class UserList extends Component  {
     let isUser = roomPermission.map((room) => ((room.room===currentRoomName || room.room==="all") ? true : false));
     if (isUser) {
       if (isAdmin) {
-          return <li key={index} id={userArray.key}>{userName} (Admin)</li>;
+
+          return <li key={index} id={userArray.key}>{userName} (Admin)</li>
+
         } else {
           return <li key={index} id={userArray.key}>{userName}</li>;
         }
@@ -40,15 +43,38 @@ class UserList extends Component  {
 
   render() {
     return (
-      <ul id="users-window">
-        <h4>Users:</h4>
-        {
-          this.state.users.map( (user, index) => {
-              return this.renderUsers( user, index, this.props.roomName);
+      <div id="users-window">
+        <ul id="users-list">
+          <h4>Users:</h4>
+          {
+            this.state.users.map( (user, index) => {
+                return this.renderUsers( user, index, this.props.roomName);
+            }
+          )
           }
-        )
-        }
-      </ul>
+        </ul>
+        <span id="delete-room-button">
+          {((this.props.activeRoom===this.props.roomName && !this.props.showEdit && this.props.isSiteAdmin) ?
+              <button name={this.props.roomName} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={this.props.roomKey} onClick={this.props.deleteRoom}>delete room</button>
+                : <p>You must be an admin for this room to delete or rename it.</p>)
+          }
+        </span>
+        <span id="edit-room-button">
+          {this.state.showEdit && this.state.currentRoomId=== this.props.roomName && this.props.currentUser ?
+            <EditText
+              handleMessageChange={this.props.handleMessage}
+              updateMessage={this.props.updateMessage}
+              currentMessageText={this.props.currentMessageText}
+              openEditWindow={this.props.openEditWindow}
+              currentMessage={this.props.curentMessage}
+              cancelEdit={this.props.cancelEdit}
+            />
+            : ((!this.props.showEdit && this.props.activeRoom===this.props.roomName  && this.props.isSiteAdmin) ?
+              <button id={this.props.roomKey} name={this.props.roomName} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.props.openEditWindow}>edit room name</button>
+                : null)
+          }
+        </span>
+      </div>
     );
   }
 }

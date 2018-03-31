@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import EditText from './EditText.js';
 import UserList  from './UserList.js';
 
 
@@ -105,33 +104,25 @@ class RoomList extends Component {
           this.state.rooms.map( (room, index) =>
             <div key={index} className="roomContainer">
               <h3 id={room.key} onClick={this.props.changeRoom}>{room.name}</h3>
-                {(!this.state.currentUser && this.props.activeRoom===room.name  && this.props.currentUser && !this.state.showEdit) ?
+                {((!this.state.currentUser && this.props.activeRoom===room.name  && this.props.currentUser && !this.state.showEdit) ?
                   <UserList
                     roomKey={room.key}
                     roomName={room.name}
                     firebase={this.props.firebase}
                     currentUser={this.props.currentUser}
+                    showEdit={this.state.showEdit}
+                    deleteRoom={this.deleteRoom}
+                    activeRoom={this.props.activeRoom}
+                    isSiteAdmin={this.props.isAdmin}
+                    handleMessageChange={this.handleRoomNameChange}
+                    updateMessage={this.updateRoomId}
+                    currentMessageText={this.state.currentRoomName}
+                    openEditWindow={this.openEditWindow}
+                    currentMessage={this.state.currentRoomId}
+                    cancelEdit={this.cancelEdit}
                   />
-                  : null
+                  : null)
                 }
-              {(!this.state.currentUser && this.props.activeRoom===room.name  && this.props.currentUser && !this.state.showEdit) ?
-                <button name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={room.key} onClick={this.deleteRoom}>delete room</button>
-                : null
-              }
-              {this.state.showEdit && this.state.currentRoomId===room.key && this.props.currentUser ?
-                <EditText
-                  handleMessageChange={this.handleRoomNameChange}
-                  updateMessage={this.updateRoomId}
-                  currentMessageText={this.state.currentRoomName}
-                  openEditWindow={this.openEditWindow}
-                  currentMessage={this.state.currentRoomId}
-                  cancelEdit={this.cancelEdit}
-                />
-                : ((!this.state.showEdit && this.props.activeRoom===room.name  && this.props.currentUser) ?
-                  <button id={room.key} name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.openEditWindow}>edit room name</button>
-                    : null
-                  )
-              }
             </div>
           )
           }

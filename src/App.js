@@ -48,7 +48,9 @@ class App extends Component {
 
   setUser (user) {
     this.setState({ currentUser: user });
-    this.setState({ isSiteAdmin: (this.state.currentUser.displayName==="Caleb Trachte" ? true : false) })
+    if (this.state.currentUser) {
+     this.setState({ isSiteAdmin: (this.state.currentUser.displayName==="Caleb Trachte" ? true : false) });
+   }
   }
 
   render() {
