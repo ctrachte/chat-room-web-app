@@ -13,6 +13,8 @@ class RoomList extends Component {
           newAdminName:"",
           isPrivate:false,
           showAddAdmin:false,
+          currentRoomAdmins:[],
+          isRoomAdmin:false
         };
         this.roomsRef = this.props.firebase.database().ref('rooms');
         this.handleRoomNameChange = this.handleRoomNameChange.bind(this);
@@ -25,6 +27,7 @@ class RoomList extends Component {
         this.openEditWindow = this.openEditWindow.bind(this);
         this.cancelEdit = this.cancelEdit.bind(this);
         this.makePrivate = this.makePrivate.bind(this);
+        this.handleRoomClick = this.handleRoomClick.bind(this);
   }
 
   componentDidMount() {
@@ -95,12 +98,14 @@ class RoomList extends Component {
     event.preventDefault();
     let newAdminName = this.state.newAdminName;
     let roomToEdit = event.target.id;
-    this.roomsRef.child(roomToEdit).child("admins").push({name:newAdminName});
+    let roomAdmins = this.state.currentRoomAdmins;
+    this.roomsRef.child(roomToEdit).child("admins").push(newAdminName);
+    roomAdmins.push(newAdminName);
     let newRooms = this.state.rooms.map((entry) => {
       if (entry.key === roomToEdit) {entry.admins += newAdminName;}
         return entry;
       });
-    this.setState({rooms:newRooms, showEdit:false});
+    this.setState({rooms:newRooms, showEdit:false, newAdminName:"", currentRoomAdmins:roomAdmins});
   }
   makePrivate (event) {
     if (event.target.checked) {
@@ -119,6 +124,14 @@ class RoomList extends Component {
     }
   }
 
+  handleRoomClick (event) {
+    this.props.changeRoom(event);
+    let currentRoom = this.state.rooms.filter(room => room.name===event.target.innerHTML);
+    let roomAdmins = currentRoom.map(room => room.admins);
+    var roomAdminNames = roomAdmins.map(admin => Object.values(admin));
+    this.setState({currentRoomAdmins:roomAdminNames});
+  }
+
   render() {
     return (
       <section className="RoomList">
@@ -127,7 +140,7 @@ class RoomList extends Component {
           {
           this.state.rooms.map( (room, index) =>
             <div key={index} className="roomContainer">
-              <h3 id={room.key} onClick={this.props.changeRoom}>{room.name}</h3>
+              <h3 id={room.key} onClick={this.handleRoomClick}>{room.name}</h3>
               {this.state.showEdit && this.state.currentRoomId===room.key && this.props.currentUser ?
                 <EditText
                   handleMessageChange={this.handleRoomNameChange}
