@@ -26,7 +26,7 @@ class AppHeader extends Component  {
 
   welcomeUser () {
     if (this.props.currentUser) {
-      return "Welcome " +  this.props.currentUser.displayName;
+      return "Welcome " +  this.props.currentUser.displayName + (this.props.isSiteAdmin ? " (Site Admin)" : "");
     } else {
       return "Please sign in to your google account.";
     }

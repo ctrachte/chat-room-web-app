@@ -12,15 +12,21 @@ class RoomList extends Component {
           currentRoomId:"",
           currentRoomName:"",
           showEdit:false,
+          newAdminName:"",
+          isPrivate:"unchecked",
+          showAddAdmin:false,
         };
         this.roomsRef = this.props.firebase.database().ref('rooms');
         this.handleRoomNameChange = this.handleRoomNameChange.bind(this);
         this.handleNewRoomName = this.handleNewRoomName.bind(this);
+        this.handleNewAdminName = this.handleNewAdminName.bind(this);
+        this.addRoomAdmin = this.addRoomAdmin.bind(this);
         this.createRoom = this.createRoom.bind(this);
         this.deleteRoom = this.deleteRoom.bind(this);
         this.updateRoomId = this.updateRoomId.bind(this);
         this.openEditWindow = this.openEditWindow.bind(this);
         this.cancelEdit = this.cancelEdit.bind(this);
+        this.makePrivate = this.makePrivate.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +41,12 @@ class RoomList extends Component {
     this.setState({newRoomName:event.target.value});
   }
 
+  handleNewAdminName (event) {
+    event.preventDefault();
+    this.setState({newAdminName:event.target.value});
+  }
+
+
   handleRoomNameChange(event) {
     event.preventDefault();
     this.setState({currentRoomName: event.target.value});
@@ -42,13 +54,10 @@ class RoomList extends Component {
 
   createRoom (event) {
     event.preventDefault();
-    if (this.props.isAdmin) {
-      const newChatRoomName = this.state.newRoomName;
-      this.roomsRef.push({name: newChatRoomName });
-      this.setState({newRoomName:""});
-    } else {
-      alert("You must be the admin to add chat rooms");
-    }
+    let roomPrivacy = (this.state.isPrivate==="checked" ? true : false);
+    let newChatRoomName = this.state.newRoomName;
+    this.roomsRef.push({name: newChatRoomName, isPrivate:roomPrivacy, admins:this.props.currentUser.displayName});
+    this.setState({newRoomName:""});
   }
 
   deleteRoom (event) {
@@ -85,14 +94,31 @@ class RoomList extends Component {
     this.setState({currentRoomId:"", currentRoomName:"", showEdit:false})
   }
 
-  addUser (event) {
+  addRoomAdmin (event) {
     event.preventDefault();
-    if (this.state.isAdmin) {
-      const newChatRoomName = this.state.newRoomName;
-      this.roomsRef.push({name: newChatRoomName });
-      this.setState({newRoomName:""});
+    let newAdminName = this.state.newAdminName;
+    let roomToEdit = event.target.id;
+    this.roomsRef.child(roomToEdit).child("admins").push({name:newAdminName});
+    let newRooms = this.state.rooms.map((entry) => {
+      if (entry.key === roomToEdit) {entry.admins += newAdminName;}
+        return entry;
+      });
+    this.setState({rooms:newRooms, showEdit:false});
+  }
+  makePrivate (event) {
+    if (event.target.checked) {
+      this.setState({isPrivate:"unchecked"});
     } else {
-      alert("You must be the admin to add chat rooms");
+      this.setState({isPrivate:"checked"});
+    }
+  }
+
+  addAddAdminButton (event) {
+    event.preventDefault();
+    if (!this.state.showAddAdmin) {
+      this.setState({showAddAdmin:true});
+    } else {
+      this.setState({showAddAdmin:false});
     }
   }
 
@@ -119,10 +145,22 @@ class RoomList extends Component {
                     : null
                   )
               }
+
               {((this.props.activeRoom===room.name && !this.state.showEdit && this.props.isSiteAdmin) ?
                   <button name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={room.key} onClick={this.deleteRoom}>delete room</button>
                     : null)
               }
+              {this.props.currentUser  && !this.state.showEdit && this.props.isSiteAdmin && this.props.activeRoom===room.name && this.state.showAddAdmin ?
+                <form onSubmit={this.addRoomAdmin} id={room.key} name={room.name}>
+                  <label>
+                    New Admin:
+                    <input type="text" name="name" value={this.state.newAdminName} onChange={this.handleNewAdminName}/>
+                  </label>
+                    <input type="submit" id={room.name} value="+" className="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" />
+                </form>
+                  : null
+              }
+
               {(!this.state.currentUser && this.props.activeRoom===room.name  && this.props.currentUser && !this.state.showEdit) ?
                 <UserList
                   roomKey={room.key}
@@ -141,11 +179,20 @@ class RoomList extends Component {
           }
           {this.props.currentUser  && !this.state.showEdit && this.props.isSiteAdmin ?
             <form onSubmit={this.createRoom}>
-              <label>
-                New Chat Room:
-                <input type="text" name="name" value={this.state.newRoomName} onChange={this.handleNewRoomName}/>
-              </label>
-                <input type="submit" value="+" className="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" />
+              <h4>Add New room</h4>
+              <div>
+                <label>
+                  Name:
+                  <input type="text" name="name" value={this.state.newRoomName} onChange={this.handleNewRoomName}/>
+                </label>
+                  <input type="submit" value="+" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" />
+              </div>
+              <div>
+                <label>
+                  Make this room private:
+                  <input type="checkbox" onChange={this.makePrivate} id={this.state.newRoomName}/>
+                </label>
+              </div>
             </form>
               : <div>You must be an Administrator to edit, delete or add new rooms.</div>
           }

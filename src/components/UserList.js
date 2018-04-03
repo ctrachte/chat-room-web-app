@@ -29,9 +29,7 @@ class UserList extends Component  {
     let isUser = roomPermission.map((room) => ((room.room===currentRoomName || room.room==="all") ? true : false));
     if (isUser) {
       if (isAdmin) {
-
-          return <li key={index} id={userArray.key}>{userName} (Admin)</li>
-
+          return <li key={index} id={userArray.key}>{userName} (Room Admin)</li>
         } else {
           return <li key={index} id={userArray.key}>{userName}</li>;
         }

@@ -60,6 +60,7 @@ class App extends Component {
         </header>
         <main>
           <AppHeader
+          isSiteAdmin={this.state.isSiteAdmin}
           setUser={this.setUser}
           firebase={firebase}
           currentUser={this.state.currentUser}
