@@ -9,16 +9,8 @@ class UserList extends Component  {
           showEdit:false,
           currentUser: this.props.currentUser,
         };
-        this.usersRef = this.props.firebase.database().ref('users');
   }
 
-  componentDidMount() {
-    this.usersRef.on('child_added', snapshot => {
-      const user = snapshot.val();
-      user.key = snapshot.key;
-      this.setState({ users: this.state.users.concat( user ) });
-    });
-  }
 
   renderUsers (user, index, currentRoomName) {
     let userName = user.name;
@@ -44,8 +36,8 @@ class UserList extends Component  {
         <ul id="users-list">
           <h4>Users:</h4>
           {
-            this.state.users.map( (user, index) => {
-                return this.renderUsers( user, index, this.props.roomName);
+            this.props.users.map( (user, index) => {
+                return this.renderUsers( user, index, this.props.activeRoom);
             }
           )
           }

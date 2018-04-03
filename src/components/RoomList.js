@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import EditText from './EditText.js';
-import UserList  from './UserList.js';
-
 
 class RoomList extends Component {
   constructor(props) {
@@ -13,7 +11,7 @@ class RoomList extends Component {
           currentRoomName:"",
           showEdit:false,
           newAdminName:"",
-          isPrivate:"unchecked",
+          isPrivate:false,
           showAddAdmin:false,
         };
         this.roomsRef = this.props.firebase.database().ref('rooms');
@@ -54,9 +52,8 @@ class RoomList extends Component {
 
   createRoom (event) {
     event.preventDefault();
-    let roomPrivacy = (this.state.isPrivate==="checked" ? true : false);
     let newChatRoomName = this.state.newRoomName;
-    this.roomsRef.push({name: newChatRoomName, isPrivate:roomPrivacy, admins:this.props.currentUser.displayName});
+    this.roomsRef.push({name: newChatRoomName, isPrivate:this.state.isPrivate, admins:this.props.currentUser.displayName});
     this.setState({newRoomName:""});
   }
 
@@ -107,9 +104,9 @@ class RoomList extends Component {
   }
   makePrivate (event) {
     if (event.target.checked) {
-      this.setState({isPrivate:"unchecked"});
+      this.setState({isPrivate:true});
     } else {
-      this.setState({isPrivate:"checked"});
+      this.setState({isPrivate:false});
     }
   }
 
@@ -150,7 +147,7 @@ class RoomList extends Component {
                   <button name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={room.key} onClick={this.deleteRoom}>delete room</button>
                     : null)
               }
-              {this.props.currentUser  && !this.state.showEdit && this.props.isSiteAdmin && this.props.activeRoom===room.name && this.state.showAddAdmin ?
+              {this.props.currentUser  && !this.state.showEdit && this.props.isSiteAdmin && this.props.activeRoom===room.name ?
                 <form onSubmit={this.addRoomAdmin} id={room.key} name={room.name}>
                   <label>
                     New Admin:
@@ -159,20 +156,6 @@ class RoomList extends Component {
                     <input type="submit" id={room.name} value="+" className="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" />
                 </form>
                   : null
-              }
-
-              {(!this.state.currentUser && this.props.activeRoom===room.name  && this.props.currentUser && !this.state.showEdit) ?
-                <UserList
-                  roomKey={room.key}
-                  roomName={room.name}
-                  firebase={this.props.firebase}
-                  currentUser={this.props.currentUser}
-                  showEdit={this.state.showEdit}
-                  deleteRoom={this.deleteRoom}
-                  activeRoom={this.props.activeRoom}
-                  isSiteAdmin={this.props.isSiteAdmin}
-                />
-                : null
               }
             </div>
           )

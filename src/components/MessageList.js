@@ -10,7 +10,8 @@ class MessageList extends Component {
           currentMessage:"",
           currentMessageText:"",
           editedTime:"",
-          showEdit:false
+          showEdit:false,
+          users:[]
         };
         this.messagesRef = this.props.firebase.database().ref('messages');
         this.handleMessageSend = this.handleMessageSend.bind(this);
@@ -84,11 +85,30 @@ class MessageList extends Component {
       this.setState({currentMessage:"", currentMessageText:"", editedTime:"", showEdit:false})
     }
 
+    renderUsers () {
+      let users = this.state.messages.filter(message => message.roomId===this.props.activeRoom).map((message) => message.username);
+      let unique_users = users.filter(function(elem, index, self) {
+          return index === self.indexOf(elem);
+      });
+      let userContainer = unique_users.map((user, index) =>
+        (user===this.props.isRoomAdmin) ? <div key={index}>{user}(admin)</div>
+          : <div key={index}>{user}</div>
+      );
+      return userContainer;
+    }
+
   render() {
     return (
       <section className="MessageList">
         <div align="center" className="messages">
+
           <h3>{this.props.activeRoom} Messages:</h3>
+          <div id="user-list">
+            <h4>In This Conversation:</h4>
+          {
+            this.renderUsers()
+          }
+          </div>
           {
           this.state.messages.filter(message => message.roomId===this.props.activeRoom).map( (message, index) =>
               <div key={index} id={message.content}>
@@ -114,6 +134,7 @@ class MessageList extends Component {
                     )
                 }
               </div>
+
           )
           }
         </div>
@@ -129,6 +150,7 @@ class MessageList extends Component {
         </form>
           : null
         }
+
       </section>
     );
   }
