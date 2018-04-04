@@ -96,17 +96,22 @@ class RoomList extends Component {
 
   addRoomAdmin (event) {
     event.preventDefault();
-    let newAdminName = this.state.newAdminName;
+    let newAdminName = String(this.state.newAdminName);
     let roomToEdit = event.target.id;
     let roomAdmins = this.state.currentRoomAdmins;
-    this.roomsRef.child(roomToEdit).child("admins").push(newAdminName);
-    roomAdmins.push(newAdminName);
-    let newRooms = this.state.rooms.map((entry) => {
-      if (entry.key === roomToEdit) {entry.admins += newAdminName;}
-        return entry;
-      });
-    this.setState({rooms:newRooms, showEdit:false, newAdminName:"", currentRoomAdmins:roomAdmins});
+    if (!(roomAdmins.includes(newAdminName))) {
+      this.roomsRef.child(roomToEdit).child("admins").push(newAdminName);
+      roomAdmins.push(newAdminName);
+      let newRooms = this.state.rooms.map((entry) => {
+        if (entry.key === roomToEdit) {entry.admins += newAdminName;}
+          return entry;
+        });
+      this.setState({rooms:newRooms, showEdit:false, newAdminName:"", currentRoomAdmins:roomAdmins});
+    } else {
+      alert('This user is already an admin');
+    }
   }
+
   makePrivate (event) {
     if (event.target.checked) {
       this.setState({isPrivate:true});
@@ -127,9 +132,8 @@ class RoomList extends Component {
   handleRoomClick (event) {
     this.props.changeRoom(event);
     let currentRoom = this.state.rooms.filter(room => room.name===event.target.innerHTML);
-    let roomAdmins = currentRoom.map(room => room.admins);
-    var roomAdminNames = roomAdmins.map(admin => Object.values(admin));
-    this.setState({currentRoomAdmins:roomAdminNames});
+    let roomAdmins = Object.values(currentRoom[0]['admins']);
+    this.setState({currentRoomAdmins:roomAdmins});
   }
 
   render() {
@@ -141,6 +145,7 @@ class RoomList extends Component {
           this.state.rooms.map( (room, index) =>
             <div key={index} className="roomContainer">
               <h3 id={room.key} onClick={this.handleRoomClick}>{room.name}</h3>
+
               {this.state.showEdit && this.state.currentRoomId===room.key && this.props.currentUser ?
                 <EditText
                   handleMessageChange={this.handleRoomNameChange}
@@ -160,6 +165,17 @@ class RoomList extends Component {
                   <button name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={room.key} onClick={this.deleteRoom}>delete room</button>
                     : null)
               }
+              <ul>
+                {this.props.activeRoom===room.name ?
+                  <h4>Room Admins:</h4>
+                  : null
+                }
+                {this.props.activeRoom===room.name ?
+                    (this.state.currentRoomAdmins.map((admin, index) => {
+                      return <li key={index}>{admin}</li>
+                    })) : null
+                }
+              </ul>
               {this.props.currentUser  && !this.state.showEdit && this.props.isSiteAdmin && this.props.activeRoom===room.name ?
                 <form onSubmit={this.addRoomAdmin} id={room.key} name={room.name}>
                   <label>
@@ -171,6 +187,7 @@ class RoomList extends Component {
                   : null
               }
             </div>
+
           )
           }
           {this.props.currentUser  && !this.state.showEdit && this.props.isSiteAdmin ?
