@@ -56,7 +56,8 @@ class RoomList extends Component {
   createRoom (event) {
     event.preventDefault();
     let newChatRoomName = this.state.newRoomName;
-    this.roomsRef.push({name: newChatRoomName, isPrivate:this.state.isPrivate, admins:this.props.currentUser.displayName});
+    let name = {name:this.props.currentUser.displayName}
+    this.roomsRef.push({name: newChatRoomName, isPrivate:this.state.isPrivate, admins:name});
     this.setState({newRoomName:""});
   }
 
