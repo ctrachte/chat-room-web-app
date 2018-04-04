@@ -91,8 +91,7 @@ class MessageList extends Component {
           return index === self.indexOf(elem);
       });
       let userContainer = unique_users.map((user, index) =>
-        (user===this.props.isRoomAdmin) ? <div key={index}>{user}(admin)</div>
-          : <div key={index}>{user}</div>
+        <p key={index}>{user}</p>
       );
       return userContainer;
     }
@@ -104,7 +103,7 @@ class MessageList extends Component {
 
           <h3>{this.props.activeRoom} Messages:</h3>
           <div id="user-list">
-            <h4>In This Conversation:</h4>
+            <p>People in This Conversation:</p>
           {
             this.renderUsers()
           }
