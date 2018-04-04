@@ -23,10 +23,13 @@ class App extends Component {
         this.state = {
           activeRoom:"",
           currentUser: "",
-          isSiteAdmin:false
+          isSiteAdmin:false,
+          isActiveRoomAdmin:false,
+          isRoomPrivate:false,
         };
         this.changeRoom = this.changeRoom.bind(this);
         this.setUser = this.setUser.bind(this);
+        this.setRoomPriv = this.setRoomPriv.bind(this);
   }
 
   timeChange () {
@@ -44,6 +47,15 @@ class App extends Component {
 
   changeRoom (event) {
     this.setState({activeRoom: event.target.innerHTML});
+  }
+
+  setRoomPriv (user, privacy, admins) {
+    this.setState({isRoomPrivate:privacy, activeRoomAdmins:admins});
+    console.log(this.state.isRoomPrivate, this.state.activeRoomAdmins);
+    if (admins.includes(user)) {
+      this.setState({isActiveRoomAdmin:true});
+    }
+    console.log(this.state.isActiveRoomAdmin);
   }
 
   setUser (user) {
@@ -76,6 +88,7 @@ class App extends Component {
             : null
           }
           <RoomList
+            setRoomPriv={this.setRoomPriv}
             isSiteAdmin={this.state.isSiteAdmin}
             currentUser={this.state.currentUser}
             activeRoom={this.state.activeRoom}

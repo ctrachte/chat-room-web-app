@@ -132,9 +132,12 @@ class RoomList extends Component {
 
   handleRoomClick (event) {
     this.props.changeRoom(event);
+    let currentUser = this.props.currentUser.displayName;
     let currentRoom = this.state.rooms.filter(room => room.name===event.target.innerHTML);
     let roomAdmins = Object.values(currentRoom[0]['admins']);
+    let privacy = currentRoom[0]['isPrivate'];
     this.setState({currentRoomAdmins:roomAdmins});
+    this.props.setRoomPriv(currentUser, privacy, roomAdmins);
   }
 
   render() {
@@ -186,7 +189,7 @@ class RoomList extends Component {
                     <input type="submit" id={room.name} value="+" className="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" />
                 </form>
                   : null
-              }
+                }
             </div>
 
           )
