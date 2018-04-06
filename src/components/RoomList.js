@@ -218,7 +218,7 @@ class RoomList extends Component {
                 </label>
               </div>
             </form>
-              : <div>You must be an Administrator to edit, delete or add new rooms.</div>
+              : <div>You must be an Administrator (Caleb Trachte) to edit, delete or add new rooms.</div>
           }
         </aside>
       </section>
