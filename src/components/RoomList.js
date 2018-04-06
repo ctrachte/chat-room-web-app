@@ -56,8 +56,8 @@ class RoomList extends Component {
   createRoom (event) {
     event.preventDefault();
     let newChatRoomName = this.state.newRoomName;
-    let name = {name:this.props.currentUser.displayName}
-    this.roomsRef.push({name: newChatRoomName, isPrivate:this.state.isPrivate, admins:name});
+    let name = this.props.currentUser.displayName;
+    this.roomsRef.push({name: newChatRoomName, isPrivate:this.state.isPrivate, admins:{name}});
     this.setState({newRoomName:""});
   }
 
@@ -97,16 +97,19 @@ class RoomList extends Component {
 
   addRoomAdmin (event) {
     event.preventDefault();
-    let newAdminName = String(this.state.newAdminName);
+    let newAdminName = this.state.newAdminName;
     let roomToEdit = event.target.id;
     let roomAdmins = this.state.currentRoomAdmins;
     if (!(roomAdmins.includes(newAdminName))) {
       this.roomsRef.child(roomToEdit).child("admins").push(newAdminName);
       roomAdmins.push(newAdminName);
       let newRooms = this.state.rooms.map((entry) => {
-        if (entry.key === roomToEdit) {entry.admins += newAdminName;}
+        if (entry.key === roomToEdit) {
+          entry.admins.name = newAdminName;
+        }
           return entry;
         });
+      console.log(newRooms);
       this.setState({rooms:newRooms, showEdit:false, newAdminName:"", currentRoomAdmins:roomAdmins});
     } else {
       alert('This user is already an admin');
@@ -132,12 +135,14 @@ class RoomList extends Component {
 
   handleRoomClick (event) {
     this.props.changeRoom(event);
-    let currentUser = this.props.currentUser.displayName;
-    let currentRoom = this.state.rooms.filter(room => room.name===event.target.innerHTML);
-    let roomAdmins = Object.values(currentRoom[0]['admins']);
-    let privacy = currentRoom[0]['isPrivate'];
-    this.setState({currentRoomAdmins:roomAdmins});
-    this.props.setRoomPriv(currentUser, privacy, roomAdmins);
+    if (this.props.currentUser) {
+      let currentUser = this.props.currentUser.displayName;
+      let currentRoom = this.state.rooms.filter(room => room.name===event.target.innerHTML);
+      let roomAdmins = Object.values(currentRoom[0]['admins']);
+      let privacy = currentRoom[0]['isPrivate'];
+      this.setState({currentRoomAdmins:roomAdmins});
+      this.props.setRoomPriv(currentUser, privacy, roomAdmins);
+    }
   }
 
   render() {
@@ -148,6 +153,7 @@ class RoomList extends Component {
           {
           this.state.rooms.map( (room, index) =>
             <div key={index} className="roomContainer">
+
               <h3 id={room.key} onClick={this.handleRoomClick}>{room.name}</h3>
 
               {this.state.showEdit && this.state.currentRoomId===room.key && this.props.currentUser ?
@@ -170,17 +176,17 @@ class RoomList extends Component {
                     : null)
               }
               <ul>
-                {this.props.activeRoom===room.name ?
+                {this.props.currentUser  && this.props.activeRoom===room.name && ((this.props.isActiveRoomAdmin && this.props.isRoomPrivate) || !this.props.isRoomPrivate) ?
                   <h4>Room Admins:</h4>
                   : null
                 }
-                {this.props.activeRoom===room.name ?
+                { this.props.currentUser  && this.props.activeRoom===room.name && ((this.props.isActiveRoomAdmin && this.props.isRoomPrivate) || !this.props.isRoomPrivate) ?
                     (this.state.currentRoomAdmins.map((admin, index) => {
                       return <li key={index}>{admin}</li>
                     })) : null
                 }
               </ul>
-              {this.props.currentUser  && !this.state.showEdit && this.props.isSiteAdmin && this.props.activeRoom===room.name ?
+              {this.props.currentUser  && !this.state.showEdit && this.props.isRoomAdmin && this.props.activeRoom===room.name ?
                 <form onSubmit={this.addRoomAdmin} id={room.key} name={room.name}>
                   <label>
                     New Admin:

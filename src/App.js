@@ -51,11 +51,11 @@ class App extends Component {
 
   setRoomPriv (user, privacy, admins) {
     this.setState({isRoomPrivate:privacy, activeRoomAdmins:admins});
-    console.log(this.state.isRoomPrivate, this.state.activeRoomAdmins);
     if (admins.includes(user)) {
       this.setState({isActiveRoomAdmin:true});
+    } else {
+      this.setState({isActiveRoomAdmin:false});
     }
-    console.log(this.state.isActiveRoomAdmin);
   }
 
   setUser (user) {
@@ -77,7 +77,7 @@ class App extends Component {
           firebase={firebase}
           currentUser={this.state.currentUser}
           />
-          {this.state.currentUser && this.state.activeRoom ?
+          {this.state.currentUser && this.state.activeRoom && ((this.state.isActiveRoomAdmin && this.state.isRoomPrivate) || !this.state.isRoomPrivate) ?
           <MessageList
             timeChange={this.timeChange}
             activeRoom={this.state.activeRoom}
@@ -85,9 +85,11 @@ class App extends Component {
             currentUser={this.state.currentUser}
             refresh={this.refresh}
           />
-            : null
+            : (this.state.activeRoom && this.state.currentUser ? <p>{this.state.activeRoom} is private. You must be an admin to view messages</p> : null)
           }
           <RoomList
+            isRoomAdmin={this.state.isActiveRoomAdmin}
+            isRoomPrivate={this.state.isRoomPrivate}
             setRoomPriv={this.setRoomPriv}
             isSiteAdmin={this.state.isSiteAdmin}
             currentUser={this.state.currentUser}
