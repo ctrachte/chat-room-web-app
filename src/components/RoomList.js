@@ -139,8 +139,9 @@ class RoomList extends Component {
       let currentUser = this.props.currentUser.displayName;
       let currentRoom = this.state.rooms.filter(room => room.name===event.target.innerHTML);
       let roomAdmins = Object.values(currentRoom[0]['admins']);
-      let privacy = currentRoom[0]['isPrivate'];
+      let privacy = currentRoom[0].isPrivate;
       this.setState({currentRoomAdmins:roomAdmins});
+      console.log(privacy);
       this.props.setRoomPriv(currentUser, privacy, roomAdmins);
     }
   }
@@ -176,11 +177,11 @@ class RoomList extends Component {
                     : null)
               }
               <ul>
-                {this.props.currentUser  && this.props.activeRoom===room.name && ((this.props.isActiveRoomAdmin && this.props.isRoomPrivate) || !this.props.isRoomPrivate) ?
+                {this.props.currentUser  && this.props.activeRoom===room.name ?
                   <h4>Room Admins:</h4>
                   : null
                 }
-                { this.props.currentUser  && this.props.activeRoom===room.name && ((this.props.isActiveRoomAdmin && this.props.isRoomPrivate) || !this.props.isRoomPrivate) ?
+                { this.props.currentUser  && this.props.activeRoom===room.name ?
                     (this.state.currentRoomAdmins.map((admin, index) => {
                       return <li key={index}>{admin}</li>
                     })) : null

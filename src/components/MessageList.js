@@ -100,15 +100,20 @@ class MessageList extends Component {
     return (
       <section className="MessageList">
         <div align="center" className="messages">
-
+        {this.props.isActiveRoomAdmin || !this.props.isRoomPrivate ?
           <h3>{this.props.activeRoom} Messages:</h3>
+          : <p>This room is private. You must be an admin to view and send messages here. Request to be added to this conversation by an admin.</p>
+        }
           <div id="user-list">
-            <p>People in This Conversation:</p>
-          {
-            this.renderUsers()
+            {this.props.isActiveRoomAdmin || !this.props.isRoomPrivate ?
+            <p>People in This Conversation:</p> : null
+            }
+
+          {this.props.isActiveRoomAdmin || !this.props.isRoomPrivate ?
+            this.renderUsers() : null
           }
           </div>
-          {
+          {this.props.isActiveRoomAdmin || !this.props.isRoomPrivate ?
           this.state.messages.filter(message => message.roomId===this.props.activeRoom).map( (message, index) =>
               <div key={index} id={message.content}>
                 <h3>{message.username}: </h3>
@@ -134,10 +139,10 @@ class MessageList extends Component {
                 }
               </div>
 
-          )
+          ) : null
           }
         </div>
-        {!this.state.showEdit ?
+        {!this.state.showEdit && (this.props.isActiveRoomAdmin || ! this.props.isRoomPrivate) ?
         <form id="addMessageContainer" onSubmit={this.sendMessage}>
           <label>
             <h4>Send a message:</h4>
