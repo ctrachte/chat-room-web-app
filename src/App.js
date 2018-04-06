@@ -17,6 +17,25 @@ var config = {
 
 firebase.initializeApp(config);
 
+// var amOnline = new firebase('https://chat-app-react-2.firebaseio.com/.info/connected');
+// var userRef = new firebase('https://chat-app-react-2.firebaseio.com/presence/' + userid);
+//
+// amOnline.on('value', function(snapshot) {
+//   if (snapshot.val()) {
+//     userRef.onDisconnect().set('☆ offline');
+//     userRef.set('★ online');
+//   }
+// });
+// document.onIdle = function () {
+//   userRef.set('☆ idle');
+// }
+// document.onAway = function () {
+//   userRef.set('☄ away');
+// }
+// document.onBack = function (isIdle, isAway) {
+//   userRef.set('★ online');
+// }
+
 class App extends Component {
   constructor(props) {
     super(props);

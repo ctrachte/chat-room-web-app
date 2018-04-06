@@ -191,7 +191,7 @@ class RoomList extends Component {
                 <form onSubmit={this.addRoomAdmin} id={room.key} name={room.name}>
                   <label>
                     New Admin:
-                    <input type="text" name="name" value={this.state.newAdminName} onChange={this.handleNewAdminName}/>
+                    <input type="text" name="name" maxlength="20" value={this.state.newAdminName} onChange={this.handleNewAdminName}/>
                   </label>
                     <input type="submit" id={room.name} value="+" className="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" />
                 </form>
@@ -207,7 +207,7 @@ class RoomList extends Component {
               <div>
                 <label>
                   Name:
-                  <input type="text" name="name" value={this.state.newRoomName} onChange={this.handleNewRoomName}/>
+                  <input type="text" name="name" maxlength="20" value={this.state.newRoomName} onChange={this.handleNewRoomName}/>
                 </label>
                   <input type="submit" value="+" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" />
               </div>
