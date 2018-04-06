@@ -91,6 +91,7 @@ class App extends Component {
           />
             :  null
           }
+          {this.state.currentUser ?
           <RoomList
             isRoomAdmin={this.state.isActiveRoomAdmin}
             isRoomPrivate={this.state.isRoomPrivate}
@@ -101,6 +102,8 @@ class App extends Component {
             firebase={firebase}
             changeRoom={this.changeRoom}
           />
+           : null
+         }
         </main>
       </div>
     );

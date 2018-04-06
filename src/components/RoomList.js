@@ -177,17 +177,17 @@ class RoomList extends Component {
                     : null)
               }
               <ul>
-                {this.props.currentUser  && this.props.activeRoom===room.name ?
-                  <h4>Room Admins:</h4>
+                {this.props.currentUser  && this.props.activeRoom===room.name && this.props.isRoomPrivate ?
+                  <p>Room Admins:</p>
                   : null
                 }
-                { this.props.currentUser  && this.props.activeRoom===room.name ?
+                { this.props.currentUser  && this.props.activeRoom===room.name && this.props.isRoomPrivate ?
                     (this.state.currentRoomAdmins.map((admin, index) => {
                       return <li key={index}>{admin}</li>
                     })) : null
                 }
               </ul>
-              {this.props.currentUser  && !this.state.showEdit && this.props.isRoomAdmin && this.props.activeRoom===room.name ?
+              {this.props.currentUser  && !this.state.showEdit && (this.props.isRoomAdmin && this.props.isRoomPrivate) && this.props.activeRoom===room.name ?
                 <form onSubmit={this.addRoomAdmin} id={room.key} name={room.name}>
                   <label>
                     New Admin:
