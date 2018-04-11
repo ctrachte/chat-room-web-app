@@ -193,7 +193,7 @@ class RoomList extends Component {
                     New Admin:
                     <input type="text" name="name" maxlength="20" value={this.state.newAdminName} onChange={this.handleNewAdminName}/>
                   </label>
-                    <input type="submit" id={room.name} value="+" className="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" />
+                    <input type="submit" id={room.name} value="+" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" />
                 </form>
                   : null
                 }

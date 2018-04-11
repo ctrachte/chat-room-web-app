@@ -4,25 +4,14 @@ class AppHeader extends Component  {
   constructor(props) {
     super(props);
         this.state = {};
-        this.signIn = this.signIn.bind(this);
-        this.signOut = this.signOut.bind(this);
+        this.usersRef  = this.props.firebase.database().ref('users');
   }
 
   componentDidMount() {
     this.props.firebase.auth().onAuthStateChanged( user => {
       this.props.setUser(user);
+      this.usersRef.push({name:user.displayName});
     });
-  }
-
-  signIn (event) {
-    const provider = new this.props.firebase.auth.GoogleAuthProvider();
-    this.props.firebase.auth().signInWithPopup( provider );
-  }
-
-  signOut (event) {
-    this.props.firebase.auth().signOut();
-    window.location.reload();
-    this.props.setUser("");
   }
 
   welcomeUser () {
@@ -41,9 +30,9 @@ class AppHeader extends Component  {
           <p>{this.welcomeUser()}</p>
           <div id="authentication">
           {!this.props.currentUser ?
-            <button id="signIn" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.signIn}>Sign In</button>
+            <button id="signIn" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.props.signIn}>Sign In</button>
              :
-            <button id="signOut" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.signOut}>Sign Out</button>
+            <button id="signOut" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.props.signOut}>Sign Out</button>
           }
           </div>
         </div>
