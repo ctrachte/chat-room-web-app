@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import EditText from './EditText.js';
+import UserList from './UserList.js';
+
 
 class MessageList extends Component {
   constructor(props) {
@@ -11,9 +13,11 @@ class MessageList extends Component {
           currentMessageText:"",
           editedTime:"",
           showEdit:false,
-          users:[]
+          users:[],
+          onlineUsers:[]
         };
         this.messagesRef = this.props.firebase.database().ref('messages');
+        this.usersRef = this.props.firebase.database().ref('users');
         this.handleMessageSend = this.handleMessageSend.bind(this);
         this.handleMessageChange = this.handleMessageChange.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
@@ -85,17 +89,6 @@ class MessageList extends Component {
       this.setState({currentMessage:"", currentMessageText:"", editedTime:"", showEdit:false})
     }
 
-    renderUsers () {
-      let users = this.state.messages.filter(message => message.roomId===this.props.activeRoom).map((message) => message.username);
-      let unique_users = users.filter(function(elem, index, self) {
-          return index === self.indexOf(elem);
-      });
-      let userContainer = unique_users.map((user, index) =>
-        <p key={index}>{user}</p>
-      );
-      return userContainer;
-    }
-
   render() {
     return (
       <section className="MessageList">
@@ -110,7 +103,10 @@ class MessageList extends Component {
             }
 
           {this.props.isActiveRoomAdmin || !this.props.isRoomPrivate ?
-            this.renderUsers() : null
+            <UserList
+              activeRoom={this.props.activeRoom}
+              messages={this.state.messages}
+            /> : null
           }
           </div>
           {this.props.isActiveRoomAdmin || !this.props.isRoomPrivate ?
