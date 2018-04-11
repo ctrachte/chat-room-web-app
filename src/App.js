@@ -23,6 +23,7 @@ class App extends Component {
         this.state = {
           activeRoom:"",
           currentUser: "",
+          currentUserId:"",
           isSiteAdmin:false,
           isActiveRoomAdmin:false,
           isRoomPrivate:false,
@@ -30,11 +31,21 @@ class App extends Component {
         this.changeRoom = this.changeRoom.bind(this);
         this.setUser = this.setUser.bind(this);
         this.setRoomPriv = this.setRoomPriv.bind(this);
-
+        this.usersRef  = firebase.database().ref('users');
+        this.signIn = this.signIn.bind(this);
+        this.signOut = this.signOut.bind(this);
   }
 
+  signIn (event) {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup( provider );
+  }
 
-
+  signOut (event) {
+    firebase.auth().signOut();
+    window.location.reload();
+    this.setUser("");
+  }
 
   timeChange () {
     let today = new Date();
@@ -79,6 +90,8 @@ class App extends Component {
         </header>
         <main>
           <AppHeader
+          signIn={this.signIn}
+          signOut={this.signOut}
           isSiteAdmin={this.state.isSiteAdmin}
           setUser={this.setUser}
           firebase={firebase}
