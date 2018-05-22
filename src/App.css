@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  display: block;
 }
 
 .App-logo {
@@ -27,10 +28,6 @@
   to { transform: rotate(360deg); }
 }
 
-aside {
-  left: 20px;
-  position: fixed;
-  top:20px;
-  background-color:beige;
-  padding:20px;
+RoomList {
+  width:30%;
 }
