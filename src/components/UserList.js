@@ -13,7 +13,9 @@ class UserList extends Component {
         return index === self.indexOf(elem);
     });
     let userContainer = unique_users.map((user, index) =>
-      <p key={index}>{user}</p>
+          <span key={index} className="mdl-chip">
+              <span className="mdl-chip__text">{user}</span>
+          </span>
     );
     return userContainer;
   }

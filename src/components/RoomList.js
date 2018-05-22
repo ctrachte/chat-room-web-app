@@ -109,7 +109,6 @@ class RoomList extends Component {
         }
           return entry;
         });
-      console.log(newRooms);
       this.setState({rooms:newRooms, showEdit:false, newAdminName:"", currentRoomAdmins:roomAdmins});
     } else {
       alert('This user is already an admin');
@@ -141,7 +140,6 @@ class RoomList extends Component {
       let roomAdmins = Object.values(currentRoom[0]['admins']);
       let privacy = currentRoom[0].isPrivate;
       this.setState({currentRoomAdmins:roomAdmins});
-      console.log(privacy);
       this.props.setRoomPriv(currentUser, privacy, roomAdmins);
     }
   }
@@ -150,12 +148,12 @@ class RoomList extends Component {
     return (
       <section className="RoomList">
         <div className="sidebar">
-          <h2>Chat Rooms:</h2>
+          <h4>Chat Rooms:</h4>
           {
           this.state.rooms.map( (room, index) =>
             <div key={index} className="roomContainer">
 
-              <h3 id={room.key} onClick={this.handleRoomClick}>{room.name}</h3>
+              <div id={room.key} onClick={this.handleRoomClick} className="mdl-navigation__link">{room.name}</div>
 
               {this.state.showEdit && this.state.currentRoomId===room.key && this.props.currentUser ?
                 <EditText
@@ -167,33 +165,39 @@ class RoomList extends Component {
                   cancelEdit={this.cancelEdit}
                 />
                 : ((!this.state.showEdit && this.props.activeRoom===room.name  && this.props.currentUser && this.props.isSiteAdmin) ?
-                  <button id={room.key} name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.openEditWindow}>edit room name</button>
+                  <button id={room.key} name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.openEditWindow}>edit</button>
                     : null
                   )
               }
 
               {((this.props.activeRoom===room.name && !this.state.showEdit && this.props.isSiteAdmin) ?
-                  <button name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={room.key} onClick={this.deleteRoom}>delete room</button>
+                  <button name={room.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id={room.key} onClick={this.deleteRoom}>delete</button>
                     : null)
               }
-              <ul>
+              <ul className="demo-list-item mdl-list">
                 {this.props.currentUser  && this.props.activeRoom===room.name && this.props.isRoomPrivate ?
                   <p>Room Admins:</p>
                   : null
                 }
                 { this.props.currentUser  && this.props.activeRoom===room.name && this.props.isRoomPrivate ?
                     (this.state.currentRoomAdmins.map((admin, index) => {
-                      return <li key={index}>{admin}</li>
+                      return <span key={index} className="mdl-chip">
+                                <span className="mdl-chip__text"> {admin} </span>
+                            </span>
                     })) : null
                 }
               </ul>
               {this.props.currentUser  && !this.state.showEdit && (this.props.isRoomAdmin && this.props.isRoomPrivate) && this.props.activeRoom===room.name ?
                 <form onSubmit={this.addRoomAdmin} id={room.key} name={room.name}>
-                  <label>
-                    New Admin:
-                    <input type="text" name="name" maxlength="20" value={this.state.newAdminName} onChange={this.handleNewAdminName}/>
-                  </label>
-                    <input type="submit" id={room.name} value="+" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" />
+                  <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+
+                    <label className="mdl-textfield__label">
+                      New Admin...
+                    </label>
+                    <input className="mdl-textfield__input" type="text" name="name" maxLength="20" value={this.state.newAdminName} onChange={this.handleNewAdminName}/>
+
+                  </div>
+                  <input type="submit" id={room.name} value="Add New Admin" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" />
                 </form>
                   : null
                 }
@@ -203,19 +207,22 @@ class RoomList extends Component {
           }
           {this.props.currentUser  && !this.state.showEdit && this.props.isSiteAdmin ?
             <form onSubmit={this.createRoom}>
-              <h4>Add New room</h4>
-              <div>
-                <label>
-                  Name:
-                  <input type="text" name="name" maxlength="20" value={this.state.newRoomName} onChange={this.handleNewRoomName}/>
-                </label>
-                  <input type="submit" value="+" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" />
+
+              <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+
+                <input className="mdl-textfield__input" type="text" name="name" maxLength="20" value={this.state.newRoomName} onChange={this.handleNewRoomName}/>
+                <label  className="mdl-textfield__label">Room Name...</label>
+
               </div>
               <div>
-                <label>
+
+                <label className="mdl-switch mdl-js-switch mdl-js-ripple-effect" htmlFor="list-switch-1">
                   Make this room private:
-                  <input type="checkbox" onChange={this.makePrivate} id={this.state.newRoomName}/>
+                  <input type="checkbox" id="list-switch-1" className="mdl-switch__input" onChange={this.makePrivate} id={this.state.newRoomName} />
                 </label>
+
+                <input type="submit" value="Add New Room" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" />
+
               </div>
             </form>
               : <div>You must be an Administrator (Caleb Trachte) to edit, delete or add new rooms.</div>

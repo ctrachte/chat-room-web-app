@@ -88,14 +88,15 @@ class App extends Component {
         <header className="mdl-layout__header mdl-layout__header--scroll">
           <div className="mdl-layout__header-row">
             <span className="mdl-layout-title">Rooms</span>
+
             <div className="mdl-layout-spacer"></div>
             <nav className="mdl-navigation">
-              <a className="mdl-navigation__link" href="">Link</a>
-              <a className="mdl-navigation__link" href="">Link</a>
-              <a className="mdl-navigation__link" href="">Link</a>
-              <a className="mdl-navigation__link" href="">Link</a>
+              <a className="mdl-navigation__link fa fa-github" href="https://github.com/ctrachte" target='_blank'></a>
+              <a className="mdl-navigation__link fa fa-linkedin" href="https://www.linkedin.com/in/caleb-trachte" target='_blank'></a>
+              <a className="mdl-navigation__link fa fa-wordpress" href="https://www.synthetic-insights.blog" target='_blank'></a>
             </nav>
           </div>
+
           <AppHeader
           signIn={this.signIn}
           signOut={this.signOut}
@@ -104,12 +105,12 @@ class App extends Component {
           firebase={firebase}
           currentUser={this.state.currentUser}
           />
-          <div class="mdl-layout-spacer"></div>
+          <div className="mdl-layout-spacer"></div>
 
         </header>
-        <div class="mdl-layout__drawer">
-          <nav class="mdl-navigation">
-            {this.state.currentUser ?
+        <div className="mdl-layout__drawer">
+          <nav className="mdl-navigation">
+
             <RoomList
               isRoomAdmin={this.state.isActiveRoomAdmin}
               isRoomPrivate={this.state.isRoomPrivate}
@@ -120,8 +121,7 @@ class App extends Component {
               firebase={firebase}
               changeRoom={this.changeRoom}
             />
-             : null
-           }
+
           </nav>
         </div>
         <main className="mdl-layout__content">

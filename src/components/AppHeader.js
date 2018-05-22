@@ -26,8 +26,8 @@ class AppHeader extends Component  {
     return (
       <section className="header">
         <div align="center" className="messages">
-          <h2>React Chat App</h2>
-          <p>{this.welcomeUser()}</p>
+          <h2>React Chat App <p>by Synthetic Insights </p></h2>
+          <h4>{this.welcomeUser()}</h4>
           <div id="authentication">
           {!this.props.currentUser ?
             <button id="signIn" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onClick={this.props.signIn}>Sign In</button>
