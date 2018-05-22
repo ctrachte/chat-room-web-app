@@ -84,10 +84,18 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header>
-        </header>
-        <main>
+      <div className="App mdl-layout mdl-js-layout">
+        <header className="mdl-layout__header mdl-layout__header--scroll">
+          <div className="mdl-layout__header-row">
+            <span className="mdl-layout-title">Title</span>
+            <div className="mdl-layout-spacer"></div>
+            <nav className="mdl-navigation">
+              <a className="mdl-navigation__link" href="">Link</a>
+              <a className="mdl-navigation__link" href="">Link</a>
+              <a className="mdl-navigation__link" href="">Link</a>
+              <a className="mdl-navigation__link" href="">Link</a>
+            </nav>
+          </div>
           <AppHeader
           signIn={this.signIn}
           signOut={this.signOut}
@@ -96,30 +104,42 @@ class App extends Component {
           firebase={firebase}
           currentUser={this.state.currentUser}
           />
-          {this.state.currentUser && this.state.activeRoom ?
-          <MessageList
-            isRoomPrivate={this.state.isRoomPrivate}
-            timeChange={this.timeChange}
-            activeRoom={this.state.activeRoom}
-            firebase={firebase}
-            currentUser={this.state.currentUser}
-            isActiveRoomAdmin={this.state.isActiveRoomAdmin}
-          />
-            :  null
-          }
-          {this.state.currentUser ?
-          <RoomList
-            isRoomAdmin={this.state.isActiveRoomAdmin}
-            isRoomPrivate={this.state.isRoomPrivate}
-            setRoomPriv={this.setRoomPriv}
-            isSiteAdmin={this.state.isSiteAdmin}
-            currentUser={this.state.currentUser}
-            activeRoom={this.state.activeRoom}
-            firebase={firebase}
-            changeRoom={this.changeRoom}
-          />
-           : null
-         }
+          <div class="mdl-layout-spacer"></div>
+
+        </header>
+        <div class="mdl-layout__drawer">
+          <span class="mdl-layout-title">Rooms</span>
+          <nav class="mdl-navigation">
+            {this.state.currentUser ?
+            <RoomList
+              isRoomAdmin={this.state.isActiveRoomAdmin}
+              isRoomPrivate={this.state.isRoomPrivate}
+              setRoomPriv={this.setRoomPriv}
+              isSiteAdmin={this.state.isSiteAdmin}
+              currentUser={this.state.currentUser}
+              activeRoom={this.state.activeRoom}
+              firebase={firebase}
+              changeRoom={this.changeRoom}
+            />
+             : null
+           }
+          </nav>
+        </div>
+        <main className="mdl-layout__content">
+
+          <div className="page-content">
+           {this.state.currentUser && this.state.activeRoom ?
+           <MessageList
+             isRoomPrivate={this.state.isRoomPrivate}
+             timeChange={this.timeChange}
+             activeRoom={this.state.activeRoom}
+             firebase={firebase}
+             currentUser={this.state.currentUser}
+             isActiveRoomAdmin={this.state.isActiveRoomAdmin}
+           />
+             :  null
+           }
+          </div>
         </main>
       </div>
     );

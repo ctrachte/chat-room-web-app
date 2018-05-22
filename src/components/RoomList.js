@@ -149,7 +149,7 @@ class RoomList extends Component {
   render() {
     return (
       <section className="RoomList">
-        <aside align="left" className="sidebar">
+        <div className="sidebar">
           <h2>Chat Rooms:</h2>
           {
           this.state.rooms.map( (room, index) =>
@@ -220,7 +220,7 @@ class RoomList extends Component {
             </form>
               : <div>You must be an Administrator (Caleb Trachte) to edit, delete or add new rooms.</div>
           }
-        </aside>
+        </div>
       </section>
     );
   }
