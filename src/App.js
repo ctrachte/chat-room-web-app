@@ -84,10 +84,10 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App mdl-layout mdl-js-layout">
+      <div className="App mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <header className="mdl-layout__header mdl-layout__header--scroll">
           <div className="mdl-layout__header-row">
-            <span className="mdl-layout-title">Title</span>
+            <span className="mdl-layout-title">Rooms</span>
             <div className="mdl-layout-spacer"></div>
             <nav className="mdl-navigation">
               <a className="mdl-navigation__link" href="">Link</a>
@@ -108,7 +108,6 @@ class App extends Component {
 
         </header>
         <div class="mdl-layout__drawer">
-          <span class="mdl-layout-title">Rooms</span>
           <nav class="mdl-navigation">
             {this.state.currentUser ?
             <RoomList
