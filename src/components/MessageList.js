@@ -95,7 +95,7 @@ class MessageList extends Component {
         <div className="messages">
         {this.props.isActiveRoomAdmin || !this.props.isRoomPrivate ?
           <h3>{this.props.activeRoom} Messages:</h3>
-          : <p>This room is private. You must be an admin to view and send messages here. Request to be added to this conversation by an admin.</p>
+          : <h3>{this.props.activeRoom}<p>This room is private. You must be an admin to view and send messages here. Request to be added to this conversation by an admin.</p></h3>
         }
           <div id="user-list">
             {this.props.isActiveRoomAdmin || !this.props.isRoomPrivate ?
